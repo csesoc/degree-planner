@@ -1,0 +1,13 @@
+{
+  "name": "degree-planner",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "client": "cd client && yarn start",
+    "server": "cd server && yarn start",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+  },
+  "dependencies": {
+    "concurrently": "^4.1.0"
+  }
+}
