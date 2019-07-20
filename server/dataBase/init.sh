@@ -1,9 +1,13 @@
 #!/bin/sh
 
 #This script initialises the postgresql database and populates the the database with small amounts of data
-#IMPORTANT!!!
+
 #Make sure that psql is exported to PATH
-#on mac it is found at /Applications/Postgres.app/Contents/Versions/latest/bin (kevin)
+#on mac it is found at "/Applications/Postgres.app/Contents/Versions/latest/bin" (kevin)
+#ALSO the postgres server needs to be running. You can run is by openning the GUI that comes installed with postgres or
+#postgres -D <postgres data directory> 2>&1 &
+#where <postgres data directory> is where the db are stored
+#ie on mac by default it is "/Users/Kevin/Library/Application Support/Postgres/var-12" (kevin)
 
 psql -h localhost -p 5432 -U postgres << EOF 
 DROP DATABASE IF EXISTS degree_planner;

@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var indexRouter = require('./routes/index');
+var courseRouter = require('./routes/course');
 var app = express();
 
 app.use(logger('dev'));
@@ -11,12 +12,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.set()
 /*
  * All server endpoints should use /api/ route prefix to separate from front end calls
  */
 app.use('/api', indexRouter);
-
+app.use('/api', courseRouter);
 // Error handling
 app.use(function(req, res, next) {
   next(createError(404));
