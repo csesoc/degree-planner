@@ -4,9 +4,7 @@ import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
 import Button from '@material-ui/core/Button';
 import DegreeSelector from './DegreeSelector';
-import MajorMinorSelector from './MajorMinorSelector';
 import DegreePlanner from './DegreePlanner';
-import Error from './Error';
 //import '../css/Wizard.css';
 
 class Wizard extends Component {
@@ -23,7 +21,7 @@ class Wizard extends Component {
     }
 
     getStepLabels = () => {
-      return ["Select Degree", "Select Major(s) & Minor(s)", "Plannify your Degree"];
+      return ["Select Degree", "Plannify your Degree"];
     }
 
     getStepContent = (step) => {
@@ -31,11 +29,9 @@ class Wizard extends Component {
             case 0:
                 return <DegreeSelector/>;
             case 1:
-                return <MajorMinorSelector/>;
-            case 2:
                 return <DegreePlanner/>;
             default:
-                return <Error/>;
+                throw new Error("Unknown Step");
         }
     }
 
@@ -81,11 +77,11 @@ class Wizard extends Component {
                 <div>
                   {this.getStepContent(this.state.activeStep)}
                   <div>
-                    <Button disabled={this.state.activeStep === 0} onClick={this.handleBack} className="btn0">
+                    <Button disabled={this.state.activeStep === 0} variant="contained" color="primary" onClick={this.handleBack} className="wizard_back_btn">
                       Back
                     </Button>
-                    <Button variant="contained" color="primary" onClick={this.handleNext} className="btn2">
-                      {this.state.activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                    <Button disabled={this.state.activeStep === steps.length - 1} variant="contained" color="primary" onClick={this.handleNext} className="wizard_next_btn">
+                      Next
                     </Button>
                   </div>
                 </div>
