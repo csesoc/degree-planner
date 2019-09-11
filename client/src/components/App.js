@@ -1,10 +1,9 @@
-import React, { Component }  from 'react';
+import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Wizard from './Wizard';
 import '../css/App.css';
 
-class App extends Component {
-  render() {
+const App = () => {
     return (
       <div className="App">
         <Switch>
@@ -12,7 +11,6 @@ class App extends Component {
         </Switch>
       </div>
     );
-  }
 }
 
 export default App;
