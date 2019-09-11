@@ -1,16 +1,15 @@
 import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 
-/* Material-ui Components */
 import AppBar from '@material-ui/core/AppBar';
+import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-
 import { makeStyles } from '@material-ui/core/styles';
 
-/* Constants */
 import { COLORS } from '../../constants/appConstants';
+import DrawerMenu from './DrawerMenu';
 
 const useStyles = makeStyles({
     icon: {
@@ -19,21 +18,30 @@ const useStyles = makeStyles({
   });
 
 const NavBar = () => {
+    
     const classes = useStyles();
 
-    const onClickMenu = () => {
-        // TODO: this function should open a Drawer, if that's what we want
-        console.log('clicked');
+    const [drawerOpen, setDrawerOpen] = React.useState(false);
+
+    function handleDrawerOpen() {
+      setDrawerOpen(true);
+    }
+
+    function handleDrawerClose() {
+      setDrawerOpen(false);
     }
 
     return (
         <AppBar>
             <Toolbar>
-                <IconButton onClick={onClickMenu}>
+                <IconButton onClick={handleDrawerOpen}>
                     <MenuIcon className={classes.icon} />
                 </IconButton>
-                Plannify
+                <Typography variant="title" color="inherit"> 
+                  Plannify
+                </Typography>
             </Toolbar>
+            <DrawerMenu open={drawerOpen} onClose={handleDrawerClose} onOpen={handleDrawerOpen} />
         </AppBar>
     );
 }
