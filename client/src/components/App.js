@@ -1,14 +1,13 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-
-/* Components */
-import Home from '../containers/Home';
+import Wizard from './Wizard';
+import '../css/App.css';
 
 const App = () => {
     return (
       <div className="App">
         <Switch>
-          <Route exact path='/' component={Home}/>
+          <Route exact path='/' component={Wizard}/>
         </Switch>
       </div>
     );
