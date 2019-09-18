@@ -3,10 +3,6 @@ import NavBar from '../common/NavBar';
 
 class Pathways extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-    
     render() {
         return (
             <div>

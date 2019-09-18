@@ -3,9 +3,6 @@ import React, { Component } from 'react';
 
 class DegreePlanner extends Component {
 
-    constructor(props) {
-        super(props);
-    }
 
     componentDidMount() {
     }

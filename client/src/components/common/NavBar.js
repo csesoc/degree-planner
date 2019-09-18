@@ -1,5 +1,4 @@
-import React, {Fragment} from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
