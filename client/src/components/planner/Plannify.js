@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
     plannify: {
-      margin: '5%',
+      margin: '1%',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center'
@@ -60,36 +60,38 @@ export default function Plannify() {
     }
 
     return (
-        <div className={classes.plannify}>
+        <div>
           <NavBar />
-          <Grid container spacing={1} alignItems="center" justify="center" direction="column">
-            <Grid item xs={12}>
-              {getStepContent(activeStep)}
+          <div className={classes.plannify}>
+            <Grid container spacing={1} alignItems="center" justify="center" direction="column">
+              <Grid item xs={12}>
+                {getStepContent(activeStep)}
+              </Grid>
+              <Grid item xs={12}> 
+                <Stepper activeStep={activeStep}>
+                  {steps.map((label,index) => {
+                    const stepProps = {};
+                    const buttonProps = {};
+                    return (
+                      <Step key={label} {...stepProps}>
+                        <StepButton onClick={handleNext} completed={isStepCompleted(index)} {...buttonProps}>
+                          {label}
+                        </StepButton>
+                      </Step>
+                    );
+                  })}
+                </Stepper>
+              </Grid>
+              <Grid item xs={12}>
+                <Button disabled={activeStep === 0} variant="contained" color="primary" onClick={handleBack} className={classes.stepperButton}>
+                  Back
+                </Button>
+                <Button disabled={activeStep === steps.length - 1} variant="contained" color="primary" onClick={handleNext} className={classes.stepperButton}>
+                  Next
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={12}> 
-              <Stepper activeStep={activeStep}>
-                {steps.map((label,index) => {
-                  const stepProps = {};
-                  const buttonProps = {};
-                  return (
-                    <Step key={label} {...stepProps}>
-                      <StepButton onClick={handleNext} completed={isStepCompleted(index)} {...buttonProps}>
-                        {label}
-                      </StepButton>
-                    </Step>
-                  );
-                })}
-              </Stepper>
-            </Grid>
-            <Grid item xs={12}>
-              <Button disabled={activeStep === 0} variant="contained" color="primary" onClick={handleBack} className={classes.stepperButton}>
-                Back
-              </Button>
-              <Button disabled={activeStep === steps.length - 1} variant="contained" color="primary" onClick={handleNext} className={classes.stepperButton}>
-                Next
-              </Button>
-            </Grid>
-          </Grid>
+          </div>
         </div>
     );
 }

@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Typography from '@material-ui/core/Typography';
 import NavBar from '../common/NavBar';
+import Course from './Course';
 
-class Pathways extends Component {
+export default function Pathways() {
 
-    render() {
-        return (
-            <div>
-              <NavBar />
-              <h1>Yeet</h1>
-            </div>
-        );
-    }
+    return(
+      <div>
+        <NavBar />
+        <Typography variant="title" color="inherit">
+          Pathways
+          <Course/>
+        </Typography>
+      </div>
+    );
 }
-
-export default Pathways;

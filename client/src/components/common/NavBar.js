@@ -31,7 +31,7 @@ const NavBar = () => {
     }
 
     return (
-        <AppBar>
+        <AppBar position="static">
             <Toolbar>
                 <IconButton onClick={handleDrawerOpen}>
                     <MenuIcon className={classes.icon} />

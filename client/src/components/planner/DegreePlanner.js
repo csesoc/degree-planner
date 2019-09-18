@@ -1,20 +1,10 @@
-import React, { Component } from 'react';
-//import '../css/DegreePlanner.css';
+import React from 'react';
 
-class DegreePlanner extends Component {
+export default function DegreePlanner() {
 
-
-    componentDidMount() {
-    }
-
-
-    render() {
-        return (
-            <div>
-              <h1>Degree Planner</h1>
-            </div>
-        );
-    }
+    return (
+        <div>
+          <h1>Degree Planner</h1>
+        </div>
+    );
 }
-
-export default DegreePlanner;
