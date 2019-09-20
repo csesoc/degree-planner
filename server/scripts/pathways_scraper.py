@@ -14,7 +14,7 @@
    limitations under the License.
 '''
 
-import codecs, os, re, requests, sys, sqlite3
+import codecs, os, re, requests, sys
 from requests.exceptions import HTTPError
 
 COURSE_LIST_RE = re.compile(r'<TD class="(?:evenTableCell)?" align="left">([A-Z]{4}[0-9]{4})</TD>')
@@ -34,7 +34,6 @@ TYPE_PREREQUISITE = "prerequisite"
 TYPE_COREQUISITE = "corequisite"
 TYPE_EXCLUSION = "exclusion"
 
-DATABASE_FILENAME = "courses.db"
 COURSES_DIR = "courses"
 UG = "undergraduate"
 PG = "postgraduate"
@@ -91,18 +90,14 @@ if __name__ == "__main__":
     scrape_everything(PG)
     
     # Database Construction
-    if os.path.exists(DATABASE_FILENAME):
-        print("Deleting existing database")
-        os.unlink(DATABASE_FILENAME)
-
-    print("Creating new database")
-    conn = sqlite3.connect(DATABASE_FILENAME)
-    cur = conn.cursor()
-
-    print("Creating tables")
-    cur.execute("CREATE TABLE courses (code text primary key, name text, description text, prerequisites text, corequisites text, exclusions text, gened integer, outline text, uoc integer)")
-    cur.execute("CREATE TABLE relationships (source text, destination text, type text)")
-
+    # TODO: Connect to our postgres server and populate in same fashion
+    # Take following steps...
+    # Check for DB, error exit on non-existence
+    # Create tables if they dont exist
+        # start by just making unique tables for pathways, eventually should have one course table
+        #cur.execute("CREATE TABLE courses (code text primary key, name text, description text, prerequisites text, corequisites text, exclusions text, gened integer, outline text, uoc integer)")
+        #cur.execute("CREATE TABLE relationships (source text, destination text, type text)")
+    
     print("\nLoading course list")
     filenames = os.listdir(COURSES_DIR)
     i = 0
@@ -209,15 +204,13 @@ if __name__ == "__main__":
             uoc = None
             print("Couldn't find UoC")
 
-        print("Writing to database")
-        cur.execute("INSERT INTO courses (code, name, description, prerequisites, corequisites, exclusions, gened, outline, uoc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", (code, name, desc, prereqs, coreqs, exclusions, gened, outline, uoc))
-        for prereq in prereqs_list:
-            cur.execute("INSERT INTO relationships (source, destination, type) VALUES (?, ?, ?)", (code, prereq, TYPE_PREREQUISITE))
-        for coreq in coreqs_list:
-            cur.execute("INSERT INTO relationships (source, destination, type) VALUES (?, ?, ?)", (code, coreq, TYPE_COREQUISITE))
-        for exclusion in exclusions_list:
-            cur.execute("INSERT INTO relationships (source, destination, type) VALUES (?, ?, ?)", (code, exclusion, TYPE_EXCLUSION))
-        print()
-    conn.commit()
-    conn.close()
+         
+        #cur.execute("INSERT INTO courses (code, name, description, prerequisites, corequisites, exclusions, gened, outline, uoc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", (code, name, desc, prereqs, coreqs, exclusions, gened, outline, uoc))
+        #for prereq in prereqs_list:
+        #    cur.execute("INSERT INTO relationships (source, destination, type) VALUES (?, ?, ?)", (code, prereq, TYPE_PREREQUISITE))
+        #for coreq in coreqs_list:
+        #    cur.execute("INSERT INTO relationships (source, destination, type) VALUES (?, ?, ?)", (code, coreq, TYPE_COREQUISITE))
+        #for exclusion in exclusions_list:
+        #    cur.execute("INSERT INTO relationships (source, destination, type) VALUES (?, ?, ?)", (code, exclusion, TYPE_EXCLUSION))
+        #print()
 
