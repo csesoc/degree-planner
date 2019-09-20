@@ -3,7 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var indexRouter = require('./routes/index');
+var pathwaysRouter = require('./routes/pathways');
+var plannifyRouter = require('./routes/plannify');
 var app = express();
 
 app.use(logger('dev'));
@@ -15,7 +16,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 /*
  * All server endpoints should use /api/ route prefix to separate from front end calls
  */
-app.use('/api', indexRouter);
+app.use('/api', pathwaysRouter);
+app.use('/api', plannifyRouter);
 
 // Error handling
 app.use(function(req, res, next) {
