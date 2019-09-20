@@ -1,15 +1,23 @@
 import React from 'react';
-import Chip from '@material-ui/core/Chip';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
 
 export default function Course() {
 
-    const code = "SENG4920";
-    const label = "Management and Ethics";
+    const code = "";
+    const label = "";
+    const prerequisites = [];
+    const postrequisites = [];
+    const handbookLink = "";
 
     return(
-      <Chip
-        key={code}
-        label={code}
-      />
+      <Card>
+        <CardHeader title={code}>
+        </CardHeader>
+        <CardContent>
+            {label}
+        </CardContent>
+      </Card>
     );
 }

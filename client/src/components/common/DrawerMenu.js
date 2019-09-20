@@ -8,11 +8,12 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 
 const useStyles = makeStyles({
     drawerList: {
-      width: 'auto',
+      width: '250px',
     },
     drawerLink: {
       textDecoration: 'none'
@@ -25,24 +26,27 @@ const DrawerMenu = (props) => {
 
     return (
         <SwipeableDrawer open={props.open} onClose={props.onClose} onOpen={props.onOpen}>
-          <List className={classes.drawerList}>
-            <Link to='/' className={classes.drawerLink}>
-              <ListItem button>
-                <ListItemIcon>
-                  <PlannifyIcon/>
-                </ListItemIcon>
-                <ListItemText primary="Plannify" />
-              </ListItem>
-            </Link>
-            <Link to='/pathways' className={classes.drawerLink}>
-              <ListItem button>
-                <ListItemIcon>
-                  <PathwaysIcon/>
-                </ListItemIcon>
-                <ListItemText primary="Pathways" />
-              </ListItem>
-            </Link>
-          </List> 
+          <div className={classes.drawerList}>
+            <List>
+              <Link to='/' className={classes.drawerLink}>
+                <ListItem button>
+                  <ListItemIcon>
+                    <PlannifyIcon/>
+                  </ListItemIcon>
+                  <ListItemText primary="Plannify" />
+                </ListItem>
+              </Link>
+              <Link to='/pathways' className={classes.drawerLink}>
+                <ListItem button>
+                  <ListItemIcon>
+                    <PathwaysIcon/>
+                  </ListItemIcon>
+                  <ListItemText primary="Pathways" />
+                </ListItem>
+              </Link>
+            </List> 
+            <Divider />
+          </div>
         </SwipeableDrawer>
     );
 }

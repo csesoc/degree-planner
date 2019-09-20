@@ -13,7 +13,7 @@ import DrawerMenu from './DrawerMenu';
 const useStyles = makeStyles({
     icon: {
       color: COLORS.WHITE,
-    },
+    }
   });
 
 const NavBar = () => {
