@@ -14,6 +14,12 @@ from bs4 import BeautifulSoup
 # - Degrees
 # - Add to database
 
+# Stripped down alphabet
+course_alphabet = ['A','B','C','D','E','F','G','H','I','L','M','N','O','P','R','S','T','V','Y','Z']
+spec_alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','R','S','T','V','W']
+course_url = 'http://legacy.handbook.unsw.edu.au/vbook2018/brCoursesByAtoZ.jsp?StudyLevel=Undergraduate&descr='
+spec_url = 'http://legacy.handbook.unsw.edu.au/vbook2018/brSpecialisationsByAtoZ.jsp?StudyLevel=Undergraduate&descr='
+
 ##### COURSES #####
 
 # To print the info of each course
@@ -25,19 +31,17 @@ def printInfo(code, link, name, cred):
 
 # To go through each letter's links for courses
 def run_course():
-    alphabet = ['A','B','C','D','E','F','G','H','I','L','M','N','O','P','R','S','T','V','Y','Z']
 
-    for letter in alphabet[0:2]:
-
+    # for letter in course_alphabet:
+    for letter in course_alphabet[0:2]:
         # runs the url for the letter search
-        course_url = 'http://legacy.handbook.unsw.edu.au/vbook2018/brCoursesByAtoZ.jsp?StudyLevel=Undergraduate&descr=' + letter
-        response = requests.get(course_url)
+        response = requests.get(course_url + letter)
         course_soup = BeautifulSoup(response.text, "html.parser")
         # soup = BeautifulSoup(test_url, "html.parser")
 
         tr = course_soup.find_all('tr') # this finds the first instance
 
-        for i in range(1,3):
+        for i in range(1,len(tr)):
             counter = 0
             td = tr[i].find_all('td') # this finds each of the td in tr
             # print(td)
@@ -104,11 +108,8 @@ def run_course():
 ##### SPECIALISATIONS (WIP) #####
 
 def run_spec():
-    alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','R','S','T','V','W']
-
-    for letter in alphabet[0:2]:
-        spec_url = 'http://legacy.handbook.unsw.edu.au/vbook2018/brSpecialisationsByAtoZ.jsp?StudyLevel=Undergraduate&descr=' + letter
-        response = requests.get(spec_url)
+    for letter in spec_alphabet[0:2]:
+        response = requests.get(spec_url + letter)
         spec_soup = BeautifulSoup(response.text, "html.parser")
 
         spec_tr = spec_soup.find_all('tr') # this finds the first instance
@@ -122,4 +123,5 @@ def run_spec():
             print(spec_link)
             print("")
 
-run_course()
+if __name__ == "__main__":
+    run_course()
