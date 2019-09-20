@@ -1,4 +1,5 @@
 var express = require('express');
+var db = require('../database/db');
 var router = express.Router();
 
 /*
@@ -23,7 +24,7 @@ var router = express.Router();
  *   ]
  * }
  */
-router.get('/courses', function(req, res, next) {
+router.get('/courses', (req, res) => {
   console.log("courses api call");
   db.query("SELECT * FROM pathways_courses", (err, queryRes) => {
       if (err) {
@@ -59,7 +60,7 @@ router.get('/courses', function(req, res, next) {
  *   ]
  * }
  */
-router.get('/relations/:code([A-S]{4}[0-9]{4})', function(req, res, next) {
+router.get('/relations/:code([A-S]{4}[0-9]{4})', (req, res) => {
   console.log("relations api call");
   db.query("SELECT * FROM pathways_relationships WHERE source LIKE $1 OR destination LIKE $1", [req.params.code], (err, queryRes) => {
       if (err) {
