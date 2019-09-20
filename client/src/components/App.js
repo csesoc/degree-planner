@@ -1,18 +1,17 @@
-import React, { Component }  from 'react';
+import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Example from './Example';
-import '../css/App.css';
+import Plannify from './planner/Plannify';
+import Pathways from './pathways/Pathways';
 
-class App extends Component {
-  render() {
+const App = () => {
     return (
       <div className="App">
         <Switch>
-          <Route exact path='/' component={Example}/>
+          <Route exact path='/' component={Plannify}/>
+          <Route exact path='/pathways' component={Pathways}/>
         </Switch>
       </div>
     );
-  }
 }
 
 export default App;
