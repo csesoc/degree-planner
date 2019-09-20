@@ -1,14 +1,25 @@
 #!/bin/sh
 
-#This script initialises the postgresql database and populates the the database with small amounts of data
+# This script initialises the postgresql database and populates the the database with small amounts of data
 
-#Make sure that psql is exported to PATH
-#on mac it is found at "/Applications/Postgres.app/Contents/Versions/latest/bin" (kevin)
-#ALSO the postgres server needs to be running. You can run is by openning the GUI that comes installed with postgres or
-#postgres -D <postgres data directory> 2>&1 &
-#where <postgres data directory> is where the db are stored
-#ie on mac by default it is "/Users/Kevin/Library/Application Support/Postgres/var-12" (kevin)
+# Prerequisites: 
+#   PostgreSQL (Tested with v10.9)
+#   .env file acquired from the CSESoc Degree Planner Team Lead or CSESoc Projects Director(s), and placed in correct directory
 
+# MAC Instructions
+#   - Ensure psql is exported to PATH, psql can be found at "/Applications/Postgres.app/Contents/Versions/latest/bin"
+#   - Ensure postgres server is running by doing either of the following
+#       - opening the GUI that comes with postgres
+#       - ```postgres -D /Users/${USER}/Library/Application Support/Postgres/var-12```
+
+# Linux Instructions
+#  - Ensure psql is exported to PATH
+#  - Ensure postgres server service is running via something like ```systemctl status postgresql``` or the equivalent for your flavour of linux
+
+# Windows Instructions
+#   - Get MAC or Linux
+
+# Create DB if it doesn't exist and populate with dummy data
 psql -h localhost -p 5432 -U postgres << EOF 
 DROP DATABASE IF EXISTS degree_planner;
 CREATE DATABASE degree_planner; 
@@ -65,11 +76,3 @@ INSERT INTO relationship( source, destination, type ) VALUES
 ( 'COMP2911', 'COMP2521', 'prerequisites' );
 
 EOF
-
-# Setup environment variables 
-export PGHOST=localhost 
-export PGPORT=5432
-export PGDATABASE="degree_planner"
-export PGUSER="postgres"
-export PGPASSWORD="sroot"
-
