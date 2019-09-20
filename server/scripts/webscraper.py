@@ -1,8 +1,9 @@
+#!/usr/bin/python3
+
 import re
 import requests
 import urllib.request
 import time
-# from test_data import *
 from bs4 import BeautifulSoup
 
 # Started by Jeremy Lim on 20/07/2019
@@ -23,7 +24,7 @@ spec_url = 'http://legacy.handbook.unsw.edu.au/vbook2018/brSpecialisationsByAtoZ
 ##### COURSES #####
 
 # To print the info of each course
-def printInfo(code, link, name, cred):
+def print_course(code, link, name, cred):
     print("CODE: " + code) # prints the code of the course
     print("LINK: " + link) # prints the link of the course
     print("NAME: " + name) # prints the name of the course
@@ -37,33 +38,25 @@ def run_course():
         # runs the url for the letter search
         response = requests.get(course_url + letter)
         course_soup = BeautifulSoup(response.text, "html.parser")
-        # soup = BeautifulSoup(test_url, "html.parser")
-
-        tr = course_soup.find_all('tr') # this finds the first instance
 
         for i in range(1,len(tr)):
             counter = 0
-            td = tr[i].find_all('td') # this finds each of the td in tr
-            # print(td)
+            td = tr[i].find_all('td')
             code = td[0].text
-            link = td[1].find_all('a')[0]['href'] # searches for the link
-            name = td[1].find_all('a')[0].text # searches for the a tags
-            cred = td[2].text # gets the credits
+            link = td[1].find_all('a')[0]['href']
+            name = td[1].find_all('a')[0].text
+            cred = td[2].text
 
-            # DEBUGGING FOR MAIN INFO
-            printInfo(code, link, name, cred)
+            print_course(code, link, name, cred)
 
-            # goes to the course link and scrapes the data
+            # Go to course link and scrape the data
             link_url = requests.get(link)
             link_soup = BeautifulSoup(link_url.text, "html.parser")
 
             p_data = link_soup.find_all('p')
             h_data = link_soup.find_all('h2')
-
-            # collects course data
             for p_instance in p_data:
                 search = p_instance.findChildren()
-                # print("LENGTH: " + str(len(search)))
                 if (len(search) > 0 and len(search[0].contents) > 0):
                     if (search[0].text == 'Faculty:'):
                         if (len(search) > 1):
@@ -90,7 +83,6 @@ def run_course():
                             counter += 1
                         break
 
-            # collects course descripter
             for h_instance in h_data:
                 if (h_instance.text == "Description"):
                     desc_tags = str(h_instance.find_next_siblings()[0])
@@ -99,11 +91,9 @@ def run_course():
 
             # checks for General Education existence in course link
             if (counter == 0):
-                print("GENED: False")
-                print("")
+                print("GENED: False\n")
             else:
-                print("GENED: True")
-                print("")
+                print("GENED: True\n")
 
 ##### SPECIALISATIONS (WIP) #####
 
@@ -113,7 +103,6 @@ def run_spec():
         spec_soup = BeautifulSoup(response.text, "html.parser")
 
         spec_tr = spec_soup.find_all('tr') # this finds the first instance
-
         for i in range(1,3):
             counter = 0
             spec_td = spec_tr[i].find_all('td') # this finds each of the td in tr
