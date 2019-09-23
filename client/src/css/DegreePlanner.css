@@ -1,0 +1,19 @@
+.box-container {
+    width: 75%;
+    height: 75%;
+    border-color: 'black';
+}
+
+.box-container p {
+    font-size: 16px;
+}
+
+.chip-container {
+    margin: 5px;
+    padding: 10px;
+}
+
+.chip-items {
+    display: flex;
+    margin: 5px;
+}

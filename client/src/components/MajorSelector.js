@@ -4,49 +4,49 @@ import InputLabel from '@material-ui/core/InputLabel';
 // import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-//import '../css/DegreeSelector.css';
+//import '../css/MajorSelector.css';
 
-class DegreeSelector extends Component {
+class MajorSelector extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-          selectedDegree: ""
+          selectedMajor: ""
         };
     }
 
     handleChange = ((changeEvent) => {
         console.log(changeEvent.target.value);
-        this.setState({selectedDegree: changeEvent.target.value});
-        this.props.chooseDegree(changeEvent.target.value);
+        this.setState({selectedMajor: changeEvent.target.value});
+        this.props.chooseMajor(changeEvent.target.value);
     });
 
     componentDidMount() {
     }
 
     render() {
-        let degreeList = [
-            { name: "Bachelor of Engineering (Honours)", id: 3707 },
-            { name: "Bachelor of Arts", id: 3409 },
+        let majorList = [
+          { name: "COMP1A", id: 1234 },
+          { name: "COMP1B", id: 5678 },
         ]
-        let degreeListOptions = degreeList.map((degree, degree_code) => <option key={degree_code} value={degree.name}>{degree.name}</option>)
+        let majorListOptions = majorList.map((major, major_code) => <option key={major_code} value={major.name}>{major.name}</option>)
         return (
             <div>
               <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    <FormControl className="degree_selector_formcontrol">
-                      <InputLabel htmlFor="degree">Degree</InputLabel>
+                    <FormControl className="major_selector_formcontrol">
+                      <InputLabel htmlFor="major">Major</InputLabel>
                       <Select
                         native
-                        value={this.state.selectedDegree}
+                        value={this.state.selectedMajor}
                         onChange={this.handleChange}
                         inputProps={{
-                          name: 'Degree',
-                          id: 'degree',
+                          name: 'Major',
+                          id: 'major',
                         }}
                       >
                         <option value="" />
-                        {degreeListOptions}
+                        {majorListOptions}
                       </Select>
                     </FormControl>
                 </Grid>
@@ -56,4 +56,4 @@ class DegreeSelector extends Component {
     }
 }
 
-export default DegreeSelector;
+export default MajorSelector;
