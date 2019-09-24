@@ -1,1 +1,5 @@
 node_modules/
+
+server/scripts/courses
+server/yarn-error.log
+server/.env

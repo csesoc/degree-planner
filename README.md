@@ -1,12 +1,32 @@
 # CSESoc Projects - Degree Planner
 
+## Table of contents
+* [Introduction](#introduction)
+* [Getting Started](#getting-started)
+    * [Prerequisites](#prerequisites)
+* [Deployment](#deployment)
+    * [Running the Web App](#run-web-app)
+    * [Running the client only](#run-client)
+    * [Running the server only](#run-server)
+    * [Configuring Postgres](#configure-postgres)
+* [Contributing](#contributing)
+* [License](#license)
+* [Authors](#authors)
+* [Acknowledgements](#acknowledgements)
+
+## Introduction
+
+CSESoc Projects' Degree Planner
+
 ## Getting Started
 
 ### Prerequisites
 
 You will need npm and yarn installed on your machine. Tested on Linux - Ubuntu 18.10
 
-### Running whole Web Application
+## Deployment
+
+### Running the Web App
 
 The below will clone the repo, install the dependencies and run both the front end and back end concurrently.
 ```
@@ -23,7 +43,7 @@ yarn dev
 
 You can then visit ```http://localhost:3000/``` for the front end and ```http://localhost:3001/``` for the back end
 
-### Running client only
+### Running the client only
 
 ```
 git clone https://github.com/csesoc/degree-planner.git
@@ -34,7 +54,7 @@ yarn start
 
 You can then visit ```http://localhost:3000/``` for the front end
 
-### Running server only
+### Running the server only
 
 ```
 git clone https://github.com/csesoc/degree-planner.git
@@ -45,12 +65,10 @@ yarn start
 
 You can then visit ```http://localhost:3001/``` for the back end
 
-## Built With
+### Configuring Postgres
 
-* [React](https://reactjs.org/)
-* [create-react-app](https://facebook.github.io/create-react-app/)
-* [Express.js](https://expressjs.com)
-* [Node.js](https://nodejs.org/en/)
+* Request the `.env` file from the current CSESoc Projects Team Lead or CSESoc Projects Director(s)
+* Place the `.env` file at ```~/degree-planner/server/.env```
 
 ## Contributing
 
@@ -66,9 +84,13 @@ Please contact the CSESoc Projects Portfolio Director(s) to find out how to cont
 * **Jeremy Lim** - *Fullstack Developer* - [HitoKage13](https://github.com/HitoKage13)
 * **Clarence Feng** - *Backend Developer* - []()
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+## Acknowledgements
 
-## Acknowledgments
+The following frameworks, libraries and softwares were and are crucial in making the degree planner
+* [React](https://reactjs.org/)
+* [create-react-app](https://facebook.github.io/create-react-app/)
+* [Express.js](https://expressjs.com)
+* [Node.js](https://nodejs.org/en/)
 
 Thanks to the following projects for providing inspiration and assistance in creation of this project.
 
@@ -76,3 +98,8 @@ Thanks to the following projects for providing inspiration and assistance in cre
 * [Crossangles](https://my.campusbiblestudy.org)
 * [Pathways](https://github.com/csesoc/pathways)
 * [UPlanner](https://uplanner.bopa.ng)
+
+## License
+
+
+

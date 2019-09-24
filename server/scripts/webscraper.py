@@ -18,6 +18,8 @@ from bs4 import BeautifulSoup
 # Stripped down alphabet
 course_alphabet = ['A','B','C','D','E','F','G','H','I','L','M','N','O','P','R','S','T','V','Y','Z']
 spec_alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','R','S','T','V','W']
+course_url = 'http://legacy.handbook.unsw.edu.au/vbook2018/brCoursesByAtoZ.jsp?StudyLevel=Undergraduate&descr='
+spec_url = 'http://legacy.handbook.unsw.edu.au/vbook2018/brSpecialisationsByAtoZ.jsp?StudyLevel=Undergraduate&descr='
 
 ##### COURSES #####
 
@@ -31,14 +33,13 @@ def print_course(code, link, name, cred):
 # To go through each letter's links for courses
 def run_course():
 
-    for letter in course_alphabet:
-        course_url = 'http://legacy.handbook.unsw.edu.au/vbook2018/brCoursesByAtoZ.jsp?StudyLevel=Undergraduate&descr=' + letter
-        response = requests.get(course_url)
+    # for letter in course_alphabet:
+    for letter in course_alphabet[0:2]:
+        # runs the url for the letter search
+        response = requests.get(course_url + letter)
         course_soup = BeautifulSoup(response.text, "html.parser")
 
-        # Do webscraping
-        tr = course_soup.find_all('tr')
-        for i in range(1,3):
+        for i in range(1,len(tr)):
             counter = 0
             td = tr[i].find_all('td')
             code = td[0].text
@@ -97,10 +98,8 @@ def run_course():
 ##### SPECIALISATIONS (WIP) #####
 
 def run_spec():
-
-    for letter in spec_alphabet:
-        spec_url = 'http://legacy.handbook.unsw.edu.au/vbook2018/brSpecialisationsByAtoZ.jsp?StudyLevel=Undergraduate&descr=' + letter
-        response = requests.get(spec_url)
+    for letter in spec_alphabet[0:2]:
+        response = requests.get(spec_url + letter)
         spec_soup = BeautifulSoup(response.text, "html.parser")
 
         spec_tr = spec_soup.find_all('tr') # this finds the first instance
