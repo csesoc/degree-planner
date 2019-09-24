@@ -78,6 +78,8 @@ class Wizard extends Component {
         this.state = {
             activeStep: 0,
             completed: [],
+            degreeIndex: 0,
+            majorIndex: 0,
             selectedDegree: {},
             selectedMajor: {},
             data: data,
@@ -92,29 +94,36 @@ class Wizard extends Component {
     }
 
     getStepContent = (step) => {
+        const { data, degreeIndex, majorIndex, selectedDegree, selectedMajor } = this.state;
         switch (step) {
             case 0:
-                return <DegreeSelector data={this.state.data} chooseDegree={this.chooseDegree}/>;
+                return <DegreeSelector data={data} chooseDegree={this.chooseDegree}/>;
             case 1:
-                return <div><h1>{this.state.selectedDegree}</h1><MajorSelector data={this.state.selectedDegree} chooseMajor={this.chooseMajor}/></div>;
+                return <div><h1>{data[degreeIndex].degree}</h1><MajorSelector data={data[degreeIndex]} chooseMajor={this.chooseMajor}/></div>;
             case 2:
-                return <h1>{this.state.selectedMajor}</h1>;
+                return <h1>{data[degreeIndex].majorList[majorIndex].major}</h1>;
             case 3:
-                return <DegreePlanner data={this.state.selectedMajor} />;
+                return <DegreePlanner degree={data[degreeIndex]} data={data[degreeIndex].majorList[majorIndex]} />;
             default:
                 throw new Error("Unknown Step");
         }
     }
 
     chooseDegree = (degree) => {
-        this.setState({selectedDegree: degree});
-        console.log("degree is " + this.state.selectedDegree)
+        const { data, degreeIndex } = this.state;
+        this.setState({degreeIndex: degree, selectedDegree: data[degreeIndex] });
+        // console.log(this.state.selectedDegree);
     }
 
     chooseMajor = (major) => {
-        this.setState({selectedMajor: major});
+        const { degreeIndex, majorIndex } = this.state;
+        this.setState({majorIndex: major });
+        this.setState({selectedMajor: data[degreeIndex].majorList[majorIndex]});
     }
 
+    planDegree = () => {
+
+    }
     setActiveStep = (step) => {
       this.setState({activeStep: step});
     }
@@ -165,7 +174,6 @@ class Wizard extends Component {
               <div>
                 <div>
                   <div>
-                  {console.log(this.state.selectedDegree)}
                     <Button disabled={this.state.activeStep === 0} variant="contained" color="primary" onClick={this.handleBack} className="wizard_back_btn">
                       Back
                     </Button>

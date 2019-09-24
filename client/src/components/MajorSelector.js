@@ -16,13 +16,12 @@ class MajorSelector extends Component {
     }
 
     handleChange = ((changeEvent) => {
-        console.log(changeEvent.target.value);
         this.setState({selectedMajor: changeEvent.target.value});
         this.props.chooseMajor(changeEvent.target.value);
+        // this.props.chooseMajor(changeEvent.target.value);
     });
 
     componentDidMount() {
-        console.log(this.props.data)
     }
 
     render() {
@@ -30,7 +29,8 @@ class MajorSelector extends Component {
           { name: "COMP1A", id: 1234 },
           { name: "COMP1B", id: 5678 },
       ] */
-        let majorListOptions = this.props.data.map((major, major_code) => <option key={major_code} value={major.major}>{major.major}</option>)
+        let majorListOptions = this.props.data.majorList.map((major, major_code) => <option key={major_code} value={major_code}>{major.major}</option>)
+        // let majorListOptions = majorList.map((major, major_code) => <option key={major_code} value={major.name}>{major.name}</option>)
         return (
             <div>
               <Grid container spacing={3}>

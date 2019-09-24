@@ -24,17 +24,41 @@ class DegreePlanner extends Component {
           chipList: []
         };
 
-        this.state.chipList = codes.map((code, key) => {
+        this.state.chipList = this.props.degree.compulsoryCourses.map((code, key) => {
             return(
                 <Chip
                     className="chip-items"
-                    label={code}
+                    label={code.course}
                     key={key}
                     color="primary"
                     style={{backgroundColor: colors[key % 6] }}
                     onClick={this.selectedChip}
                 />
         )});
+
+        this.state.chipList.push(this.props.degree.courseElectives.map((code, key) => {
+            return(
+                <Chip
+                    className="chip-items"
+                    label={code.course}
+                    key={key}
+                    color="primary"
+                    style={{backgroundColor: colors[key % 6] }}
+                    onClick={this.selectedChip}
+                />
+        )}))
+
+        this.state.chipList.push(this.props.data.courses.map((code, key) => {
+            return(
+                <Chip
+                    className="chip-items"
+                    label={code.course}
+                    key={key}
+                    color="primary"
+                    style={{backgroundColor: colors[key % 6] }}
+                    onClick={this.selectedChip}
+                />
+        )}))
     }
 
     // selects chip to be added into the term boxes
@@ -89,7 +113,7 @@ class DegreePlanner extends Component {
                         <GridListTile cols={word.cols || 1}>
                             <Box border={1} className="box-container" borderColor="primary.main" onClick={this.addChip} key={key}>
                                 {/* {this.state.appendedChips} */}
-                                <Chip
+                                {/* <Chip
                                     className="chip-items"
                                     label="COMP2511"
                                     color="primary"
@@ -109,7 +133,7 @@ class DegreePlanner extends Component {
                                     color="primary"
                                     style={{backgroundColor: colors[key % 6] }}
                                     onClick={this.selectedChip}
-                                />
+                                /> */}
                             </Box>
                         </GridListTile>
                     ))}
