@@ -5,6 +5,10 @@ import DegreePlanner from './DegreePlanner';
 import MajorSelector from './MajorSelector';
 import '../css/Wizard.css';
 
+// TO-DO:
+// I introduced some bugs with selectedDegree and selectedMajor not asyncing
+// the correct object. Currently, I hardcoded it with long ass object names so
+// I need to fix that soon
 var data = [
         { degree: "Bachelor of Computer Science", code: 3778, uoc: 144,
         majorList: [
@@ -80,8 +84,8 @@ class Wizard extends Component {
             completed: [],
             degreeIndex: 0,
             majorIndex: 0,
-            selectedDegree: {},
-            selectedMajor: {},
+            selectedDegree: {}, // TO-DO
+            selectedMajor: {}, // TO-DO
             data: data,
         };
     }
@@ -98,10 +102,13 @@ class Wizard extends Component {
         switch (step) {
             case 0:
                 return <DegreeSelector data={data} chooseDegree={this.chooseDegree}/>;
+            // TO-DO
             case 1:
                 return <div><h1>{data[degreeIndex].degree}</h1><MajorSelector data={data[degreeIndex]} chooseMajor={this.chooseMajor}/></div>;
+            // TO-DO
             case 2:
                 return <h1>{data[degreeIndex].majorList[majorIndex].major}</h1>;
+            // TO-DO
             case 3:
                 return <DegreePlanner degree={data[degreeIndex]} data={data[degreeIndex].majorList[majorIndex]} />;
             default:
