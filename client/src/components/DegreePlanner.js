@@ -20,8 +20,21 @@ class DegreePlanner extends Component {
         this.state = {
           selectedChip: "",
           appendedChips: [],
+          timetable_slots: [],
           chipList: []
         };
+
+        this.state.chipList = codes.map((code, key) => {
+            return(
+                <Chip
+                    className="chip-items"
+                    label={code}
+                    key={key}
+                    color="primary"
+                    style={{backgroundColor: colors[key % 6] }}
+                    onClick={this.selectedChip}
+                />
+        )});
     }
 
     // selects chip to be added into the term boxes
@@ -29,13 +42,20 @@ class DegreePlanner extends Component {
         // debugging
         this.setState({ selectedChip: event.target })
 
+        // event.target.innerText --> code
+        // for (var i = 0; i < this.state.chipList.length; i++) {
+        //     if (this.state.chipList.get(i).label === event.target.innerText) {
+        //         return this.state.chipList.get(i)
+        //     }
+        // }
+
         // TO-DO: Need to target the whole object and not the text
     }
 
     // just for functionality / will change for better ui later
     addChip = (event) => {
         if (this.state.selectedChip !== "") {
-            event.target = this.state.selectedChip;
+            event.target.innerText = this.state.selectedChip;
             this.setState({ appendedChips: this.state.selectedChip })
             this.setState({ selectedChip: "" });
         }
@@ -50,7 +70,7 @@ class DegreePlanner extends Component {
         return (
             <div>
                 <div className="chip-container">
-                    {codes.map((code, key) => {
+                    {/* codes.map((code, key) => {
                         chipList.push(<Chip
                             className="chip-items"
                             label={code}
@@ -61,12 +81,13 @@ class DegreePlanner extends Component {
                         />);
                         return(
                             chipList[key]
-                    )})}
+                    )}) */}
+                    {chipList}
                 </div>
                 <GridList cellHeight={160} cols={3}>
                     {memes.map((word, key) => (
-                        <GridListTile key={key} cols={word.cols || 1}>
-                            <Box border={1} className="box-container" borderColor="primary.main" onClick={this.addChip}>
+                        <GridListTile cols={word.cols || 1}>
+                            <Box border={1} className="box-container" borderColor="primary.main" onClick={this.addChip} key={key}>
                                 {/* {this.state.appendedChips} */}
                                 <Chip
                                     className="chip-items"
