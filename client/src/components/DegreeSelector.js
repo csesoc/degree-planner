@@ -11,25 +11,26 @@ class DegreeSelector extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          selectedDegree: ""
+          showDegree: "",
+          selectedDegree: {}
         };
     }
 
     handleChange = ((changeEvent) => {
-        console.log(changeEvent.target.value);
-        this.setState({selectedDegree: changeEvent.target.value});
-        this.props.chooseDegree(changeEvent.target.value);
+        this.setState({showDegree: changeEvent.target.value});
+        this.props.chooseDegree(changeEvent);
+        console.log(this.state.showDegree);
     });
 
     componentDidMount() {
     }
 
     render() {
-        let degreeList = [
+        /* let degreeList = [
             { name: "Bachelor of Engineering (Honours)", id: 3707 },
             { name: "Bachelor of Arts", id: 3409 },
-        ]
-        let degreeListOptions = degreeList.map((degree, degree_code) => <option key={degree_code} value={degree.name}>{degree.name}</option>)
+        ] */
+        let degreeListOptions = this.props.data.map((degree, degree_code) => <option key={degree_code} value={degree.degree}>{degree.degree}</option>)
         return (
             <div>
               <Grid container spacing={3}>
@@ -38,7 +39,7 @@ class DegreeSelector extends Component {
                       <InputLabel htmlFor="degree">Degree</InputLabel>
                       <Select
                         native
-                        value={this.state.selectedDegree}
+                        value={this.state.showDegree}
                         onChange={this.handleChange}
                         inputProps={{
                           name: 'Degree',

@@ -11,7 +11,7 @@ class MajorSelector extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          selectedMajor: ""
+          selectedMajor: "",
         };
     }
 
@@ -22,14 +22,15 @@ class MajorSelector extends Component {
     });
 
     componentDidMount() {
+        console.log(this.props.data)
     }
 
     render() {
-        let majorList = [
+        /* let majorList = [
           { name: "COMP1A", id: 1234 },
           { name: "COMP1B", id: 5678 },
-        ]
-        let majorListOptions = majorList.map((major, major_code) => <option key={major_code} value={major.name}>{major.name}</option>)
+      ] */
+        let majorListOptions = this.props.data.map((major, major_code) => <option key={major_code} value={major.major}>{major.major}</option>)
         return (
             <div>
               <Grid container spacing={3}>
