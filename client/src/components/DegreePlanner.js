@@ -18,15 +18,16 @@ class DegreePlanner extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          selectedChip: ""
+          selectedChip: "",
+          appendedChips: [],
+          chipList: []
         };
     }
 
     // selects chip to be added into the term boxes
     selectedChip = (event) => {
         // debugging
-        console.log(event.target.innerText)
-        this.setState({ selectedChip: event.target.innerText })
+        this.setState({ selectedChip: event.target })
 
         // TO-DO: Need to target the whole object and not the text
     }
@@ -34,7 +35,8 @@ class DegreePlanner extends Component {
     // just for functionality / will change for better ui later
     addChip = (event) => {
         if (this.state.selectedChip !== "") {
-            event.target.innerText = this.state.selectedChip;
+            event.target = this.state.selectedChip;
+            this.setState({ appendedChips: this.state.selectedChip })
             this.setState({ selectedChip: "" });
         }
     }
@@ -44,27 +46,49 @@ class DegreePlanner extends Component {
 
 
     render() {
+        const { chipList } = this.state;
         return (
             <div>
                 <div className="chip-container">
                     {codes.map((code, key) => {
+                        chipList.push(<Chip
+                            className="chip-items"
+                            label={code}
+                            key={key}
+                            color="primary"
+                            style={{backgroundColor: colors[key % 6] }}
+                            onClick={this.selectedChip}
+                        />);
                         return(
-                            /* <Draggable> */
-                                <Chip
-                                    className="chip-items"
-                                    label={code}
-                                    color="primary"
-                                    style={{backgroundColor: colors[key % 6] }}
-                                    onClick={this.selectedChip}
-                                />
-                            /* </Draggable> */
+                            chipList[key]
                     )})}
                 </div>
                 <GridList cellHeight={160} cols={3}>
                     {memes.map((word, key) => (
                         <GridListTile key={key} cols={word.cols || 1}>
                             <Box border={1} className="box-container" borderColor="primary.main" onClick={this.addChip}>
-                                <p>{word}</p>
+                                {/* {this.state.appendedChips} */}
+                                <Chip
+                                    className="chip-items"
+                                    label="COMP2511"
+                                    color="primary"
+                                    style={{backgroundColor: colors[key % 6] }}
+                                    onClick={this.selectedChip}
+                                />
+                                <Chip
+                                    className="chip-items"
+                                    label="COMP2521"
+                                    color="primary"
+                                    style={{backgroundColor: colors[key % 6] }}
+                                    onClick={this.selectedChip}
+                                />
+                                <Chip
+                                    className="chip-items"
+                                    label="MATH1081"
+                                    color="primary"
+                                    style={{backgroundColor: colors[key % 6] }}
+                                    onClick={this.selectedChip}
+                                />
                             </Box>
                         </GridListTile>
                     ))}
