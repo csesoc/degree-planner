@@ -36,7 +36,7 @@ const NavBar = () => {
                 <IconButton onClick={handleDrawerOpen}>
                     <MenuIcon className={classes.icon} />
                 </IconButton>
-                <Typography variant="title" color="inherit"> 
+                <Typography color="inherit"> 
                   Plannify
                 </Typography>
             </Toolbar>
