@@ -1,8 +1,21 @@
 #!/usr/bin/python3
 
-import pg8000, sys
+import pg8000, sys, os
+from dotenv import load_dotenv
+from pathlib import Path
 
+# Load .env file
+env_path = Path('..') / '.env'
+load_dotenv(dotenv_path=env_path)
+
+# Database Configuration
 DEGREE_PLANNER_DATABASE_NAME = "degree_planner"
+PGPORT = os.getenv('PGPORT')
+PGHOST = os.getenv('PGHOST')
+PGUSER = os.getenv('PGUSER')
+PGPASSWORD = os.getenv('PGPASSWORD')
+
+# SENG Sample Data
 faculty = "Faculty of Engineering"
 school = "School of Computer Science and Engineering"
 program = "Bachelor of Engineering (Honours)"
@@ -20,7 +33,7 @@ courses = [
 ]
 
 # Create Database
-conn = pg8000.connect(port=5432, host="localhost", user="postgres", password="sroot")
+conn = pg8000.connect(port=PGPORT, host=PGHOST, user=PGUSER, password=PGPASSWORD)
 cur = conn.cursor()
 conn.autocommit = True
 cur.execute("DROP DATABASE IF EXISTS " + DEGREE_PLANNER_DATABASE_NAME);
@@ -29,7 +42,7 @@ conn.autocommit = False
 cur.close()
 
 # Create tables
-conn = pg8000.connect(database=DEGREE_PLANNER_DATABASE_NAME, port=5432, host="localhost", user="postgres", password="sroot")
+conn = pg8000.connect(database=DEGREE_PLANNER_DATABASE_NAME, port=PGPORT, host=PGHOST, user=PGUSER, password=PGPASSWORD)
 cur = conn.cursor()
 cur.execute("CREATE TABLE IF NOT EXISTS faculties (name text primary key, schools text)")
 cur.execute("CREATE TABLE IF NOT EXISTS schools (name text primary key, programs text)")
