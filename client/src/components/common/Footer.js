@@ -9,7 +9,11 @@ const useStyles = makeStyles(theme => ({
     footer: {
         backgroundColor: '#3F51BA',
         color: COLORS.WHITE,
-        padding: theme.spacing(6),
+        padding: theme.spacing(5),
+        overflow: 'hidden',
+        left: 0,
+        bottom: 0,
+        position: 'absolute'
     }
   }));
 
