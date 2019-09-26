@@ -1,6 +1,7 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import NavBar from '../common/NavBar';
+import Footer from '../common/Footer';
 import Course from './Course';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -22,6 +23,7 @@ export default function Pathways() {
           Pathways
           <Course/>
         </Typography>
+        <Footer />
       </div>
     );
 }

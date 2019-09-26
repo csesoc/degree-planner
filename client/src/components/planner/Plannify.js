@@ -8,6 +8,7 @@ import DegreeInputForm from './DegreeInputForm';
 import DegreePlanner from './DegreePlanner';
 import NavBar from '../common/NavBar';
 import { makeStyles } from '@material-ui/core/styles';
+import Footer from '../common/Footer';
 
 const useStyles = makeStyles({
     plannify: {
@@ -92,6 +93,7 @@ export default function Plannify() {
               </Grid>
             </Grid>
           </div>
+          <Footer/>
         </div>
     );
 }
