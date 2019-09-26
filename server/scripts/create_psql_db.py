@@ -10,7 +10,7 @@ cur.execute("CREATE TABLE IF NOT EXISTS schools (name text primary key, programs
 cur.execute("CREATE TABLE IF NOT EXISTS programs (programid integer primary key, name text, major text, minor text)")
 cur.execute("CREATE TABLE IF NOT EXISTS majors (majorid text primary key, name text, courses text)")
 cur.execute("CREATE TABLE IF NOT EXISTS minors (minorid text primary key, name text, courses text)")
-cur.execute("CREATE TABLE IF NOT EXISTS courses (code text primary key, name text, description text, offering text, faculty text, school text, study_level text, gened integer, outline text, uoc integer)")
+cur.execute("CREATE TABLE IF NOT EXISTS courses (code text, name text, description text, offering text, faculty text, school text, study_level text, gened integer, outline text, uoc integer)")
 conn.commit()
 
 faculty = "Faculty of Engineering"
@@ -40,11 +40,11 @@ cur.execute(query, args((school, program)))
 query, args = pg8000.core.convert_paramstyle("qmark", "INSERT INTO programs (programid, name, major, minor) VALUES (?, ?, ?, ?) ON CONFLICT DO NOTHING")
 cur.execute(query, args((3707, "Bachelor of Engineering (Honours)", "Software Engineering", "")))
 # Major
-query, args = pg8000.core.convert_paramstyle("qmark", "INSERT INTO major (majorid, name, courses) VALUES (?, ?, ?) ON CONFLICT DO NOTHING")
+query, args = pg8000.core.convert_paramstyle("qmark", "INSERT INTO majors (majorid, name, courses) VALUES (?, ?, ?) ON CONFLICT DO NOTHING")
 cur.execute(query, args(("SENGAH", "Software Engineering", ", ".join(courses)))) 
 # Courses
 query, args = pg8000.core.convert_paramstyle("qmark", "INSERT INTO courses (code, name, description, offering, faculty, school, study_level, gened, outline, uoc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
 for i, course in enumerate(courses):
-    cur.execute(query, args((course, course, "", "", "T" + str(i % 3 + 1), "Faculty of Engineering", "School of Computer Science and Engineering", "UG", "1" if course == "FREE" else "0", "", 6)))
+    cur.execute(query, args((course, "course full name here", "course desc here", "T" + str(i % 3 + 1), faculty, school, "UG", "1" if course == "FREE" else "0", "http://handbook.unsw.edu.au/", 6)))
 
 conn.commit()
