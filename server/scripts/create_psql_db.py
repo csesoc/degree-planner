@@ -1,18 +1,8 @@
 #!/usr/bin/python3
 
-import pg8000
+import pg8000, sys
 
-# Create tables
-conn = pg8000.connect(database="degree_planner", port=5432, host="localhost", user="postgres", password="sroot")
-cur = conn.cursor()
-cur.execute("CREATE TABLE IF NOT EXISTS faculties (name text primary key, schools text)")
-cur.execute("CREATE TABLE IF NOT EXISTS schools (name text primary key, programs text)")
-cur.execute("CREATE TABLE IF NOT EXISTS programs (programid integer primary key, name text, major text, minor text)")
-cur.execute("CREATE TABLE IF NOT EXISTS majors (majorid text primary key, name text, courses text)")
-cur.execute("CREATE TABLE IF NOT EXISTS minors (minorid text primary key, name text, courses text)")
-cur.execute("CREATE TABLE IF NOT EXISTS courses (code text, name text, description text, offering text, faculty text, school text, study_level text, gened integer, outline text, uoc integer)")
-conn.commit()
-
+DEGREE_PLANNER_DATABASE_NAME = "degree_planner"
 faculty = "Faculty of Engineering"
 school = "School of Computer Science and Engineering"
 program = "Bachelor of Engineering (Honours)"
@@ -28,6 +18,27 @@ courses = [
   "COMP3+","COMP3+","COMP3+",
   "COMP3+","COMP4+","COMP4+"
 ]
+
+# Create Database
+conn = pg8000.connect(port=5432, host="localhost", user="postgres", password="sroot")
+cur = conn.cursor()
+conn.autocommit = True
+cur.execute("DROP DATABASE IF EXISTS " + DEGREE_PLANNER_DATABASE_NAME);
+cur.execute("CREATE DATABASE " + DEGREE_PLANNER_DATABASE_NAME)
+conn.autocommit = False
+cur.close()
+
+# Create tables
+conn = pg8000.connect(database=DEGREE_PLANNER_DATABASE_NAME, port=5432, host="localhost", user="postgres", password="sroot")
+cur = conn.cursor()
+cur.execute("CREATE TABLE IF NOT EXISTS faculties (name text primary key, schools text)")
+cur.execute("CREATE TABLE IF NOT EXISTS schools (name text primary key, programs text)")
+cur.execute("CREATE TABLE IF NOT EXISTS programs (programid integer primary key, name text, major text, minor text)")
+cur.execute("CREATE TABLE IF NOT EXISTS majors (majorid text primary key, name text, courses text)")
+cur.execute("CREATE TABLE IF NOT EXISTS minors (minorid text primary key, name text, courses text)")
+cur.execute("CREATE TABLE IF NOT EXISTS courses (code text, name text, description text, offering text, faculty text, school text, study_level text, gened integer, outline text, uoc integer)")
+conn.commit()
+
 
 # Insert Dummy Data for Bachelor of Software Engineering
 # Faculty
