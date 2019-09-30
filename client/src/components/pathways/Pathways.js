@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { ArcherContainer, ArcherElement } from 'react-archer';
+import Select from 'react-select';
 import Typography from '@material-ui/core/Typography';
 import NavBar from '../common/NavBar';
 import Course from './Course';
@@ -16,80 +17,94 @@ const useStyles = makeStyles({
   }
 });
 
+// TODO 
+//   Load search options async? 
+//   Search should perhaps just send requests for current text to Backend and return possible options
+//   Make this more efficient, it is very slow! (by probably moving things out of useEffect)
+//   Fix CSS on Course Cards so arrows touch properly
+//   Fix CSS so search bar isnt touching top
+//   Add onClick to cards so can rerender with selected card as the subject
+//   Find a way to somehow represent exclusions? (maybe add to middle column with same arrows??)
 export default function Pathways() {
 
     const classes = useStyles();
+    
     const [course, setCourse] = useState({});
     const [prereqs, setPrereqs] = useState([]);
     const [postreqs, setPostreqs] = useState([]);
-    const [courses, setCourses] = useState({});
-    const [courseCards, setCourseCards] = useState([]);
+    
+    const [courses, setCourses] = useState([]);
+    const [courseOptions, setCourseOptions] = useState([]);
 
-    // On Component mounting request course data from server and then transform into the cards
+    // Only render react-archer components after we finalise results, otherwise arrows don't render properly
+    const [archerRenderComplete, setArcherRenderComplete] = useState(false);
+
     useEffect(() => {
       async function fetchData() {
         const response = await fetch('/api/courses')
-           .then(res => res.json())
-           .then(res => setCourses(res))
-           .catch((error) => console.log(error.message));
-      }
-
-      async function fetchReqs(code) {
-        const response = await fetch('/api/relations/' + code)
           .then(res => res.json())
           .then(res => {
-            for (let [key, val] of Object.entries(res.relations)) {
-              if (val.type !== 'prerequisite') {
-                continue
-              }
-              if (val.destination === code) {
-                let srcCourse = findCourse(val.source);
-                if (srcCourse === undefined) {
-                    continue
-                } else {
-                  setPostreqs(postreqs => [...postreqs, srcCourse]);
-                }
-              } else if (val.source === code) {
-                let destCourse = findCourse(val.destination);
-                if (destCourse === undefined) {
-                  continue
-                } else {
-                  setPrereqs(prereqs => [...prereqs, destCourse]);
-                }
-              }
-            }
-          });
+            setCourses(res);
+            setCourseOptions(res.courses.map((obj) => {
+              return ({
+                "label": obj.code,
+                "value": obj,
+              });
+            }));
+          })
+          .catch((error) => console.log(error.message));
       }
-        
-      if (!Object.keys(courses).length) {
-        fetchData();
-      } else {
-        if (!courseCards.length) {
-          setCourseCards(courses["courses"].map((courseObj) => {
-            return courseObjToCard(courseObj);
-          }));
-          setCourse(findCourse('COMP2041'));
-          fetchReqs('COMP2041');
-        }
-      }
-    }, [course, courses, courseCards, prereqs, postreqs, findCourse]); 
 
-    function findCourse(code) {  
-      return courses["courses"].find(course => course.code === code);
-    };
+      console.log("yeet");
+      if (!Object.keys(courses).length) {
+        console.log("yeetb");
+        fetchData();
+      } else if (Object.keys(course).length) {
+        const relations = fetch('/api/relations/' + course.code)
+            .then(res => res.json())
+            .then(res => {
+              Object.values(res.relations).forEach(val => {
+                let relatedCourse = {};
+                if (val.destination === course.code && val.type === 'prerequisite') {
+                  relatedCourse = courses["courses"].find(course => course.code === val.source);
+                  if (relatedCourse === undefined) {
+                    console.log("Could not locate course " + val.source + " in the database");
+                  } else {
+                    setPostreqs(postreqs => [...postreqs, relatedCourse]);
+                  }
+                } else if (val.source === course.code && val.type === 'prerequisite') {
+                  relatedCourse = courses["courses"].find(course => course.code === val.destination);
+                  if (relatedCourse === undefined) {
+                    console.log("Could not locate course " + val.destination + " in the database");
+                  } else {
+                    setPrereqs(prereqs => [...prereqs, relatedCourse]);
+                  }
+                } else {
+                  console.log("Course: " + course.code + " has no relations to " + val.source + " or " + val.destination);
+                }
+              });
+            })
+            .then(res => {
+              setArcherRenderComplete(true);  
+            });  
+      }
+    }, [course, setCourse, courses, setArcherRenderComplete]);
 
     function courseObjToCard(courseObj) {
       return (<Course className={classes.courseCard} key={courseObj.code} data={courseObj} />);
     };
 
     function courseObjToPrereqArcher(courseObj) {
-      let rel = {
-        targetId: course.code,
-        targetAnchor: 'left',
-        sourceAnchor: 'right',
-      };
       return (
-        <ArcherElement key={courseObj.code} id={courseObj.code} relations={[rel]}>
+        <ArcherElement 
+          key={courseObj.code} 
+          id={courseObj.code} 
+          relations={[{
+              targetId: course.code,
+              targetAnchor: 'left',
+              sourceAnchor: 'right'
+          }]}
+        >
           {courseObjToCard(courseObj)}
         </ArcherElement>
       );
@@ -117,12 +132,24 @@ export default function Pathways() {
         </ArcherElement>
       );
     }
+    
+    const handleSearchValueChange = value => {
+      if (archerRenderComplete) {
+        setArcherRenderComplete(false);
+      }
+      setCourse(value.value);
+    };
 
-    // Have to do this because if react-archer renders this before it has code to work off, arrows don't generate properly forever.
-    if (course.code !== undefined) {
-      return(
+    if (archerRenderComplete) {
+      return (
         <div>
           <NavBar />
+          <Select
+            isSearchable={true}
+            isLoading={false}
+            options={courseOptions}
+            onChange={handleSearchValueChange}
+          />
           <ArcherContainer>
             <Grid container className={classes.grid}  direction="row" justify="center" alignItems="center" alignContent="center">
               <Grid item className={classes.gridItem} xs={4} justify="center">
@@ -138,11 +165,32 @@ export default function Pathways() {
           </ArcherContainer>
         </div>
       );
-    } else {
-      return(
+    } else if (Object.keys(courses).length){
+      // Search results loaded but user has not chosen a course, cannot render archer stuff until then so just show search bar?
+      return (
         <div>
           <NavBar />
+          <Select
+            isSearchable={true}
+            isLoading={false}
+            options={courseOptions}
+            onChange={handleSearchValueChange}
+          />
+        </div>
+      );
+    } else {
+      // Search options ahvent loaded, should put a spinner here probably
+      return (
+        <div>
+          <NavBar />
+          <Select
+            isSearchable={true}
+            isLoading={true}
+            options={courseOptions}
+            onChange={handleSearchValueChange}
+          />
         </div>
       );
     }
+
 }

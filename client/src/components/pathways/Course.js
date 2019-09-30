@@ -15,6 +15,9 @@ const useStyles = makeStyles({
   },
 });
 
+/**
+ * Course Component that renders course information as a Material UI Card
+ */
 export default function Course(props) {
 
     const classes = useStyles();
