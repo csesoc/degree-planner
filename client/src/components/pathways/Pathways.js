@@ -4,6 +4,7 @@ import { ArcherContainer, ArcherElement } from 'react-archer';
 import Select from 'react-select';
 import Typography from '@material-ui/core/Typography';
 import NavBar from '../common/NavBar';
+import Footer from '../common/Footer';
 import Course from './Course';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -163,6 +164,7 @@ export default function Pathways() {
               </Grid>
             </Grid>
           </ArcherContainer>
+          <Footer />
         </div>
       );
     } else if (Object.keys(courses).length){
@@ -176,6 +178,7 @@ export default function Pathways() {
             options={courseOptions}
             onChange={handleSearchValueChange}
           />
+          <Footer />
         </div>
       );
     } else {
@@ -189,8 +192,8 @@ export default function Pathways() {
             options={courseOptions}
             onChange={handleSearchValueChange}
           />
+          <Footer />
         </div>
       );
     }
-
 }
