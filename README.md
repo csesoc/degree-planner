@@ -1,13 +1,13 @@
-# CSESoc Projects - Degree Planner
+# CSESoc Projects - Degree Planner (Plannify & Pathways)
 
 ## Table of contents
 * [Introduction](#introduction)
 * [Getting Started](#getting-started)
     * [Prerequisites](#prerequisites)
 * [Deployment](#deployment)
-    * [Running the Web App](#run-web-app)
-    * [Running the client only](#run-client)
-    * [Running the server only](#run-server)
+    * [Running the Web App locally](#run-web-app)
+    * [Running the client locally](#run-client)
+    * [Running the server locally](#run-server)
     * [Configuring Postgres](#configure-postgres)
 * [Contributing](#contributing)
 * [License](#license)
@@ -16,7 +16,9 @@
 
 ## Introduction
 
-CSESoc Projects' Degree Planner
+CSESoc Projects' Degree Planner (Plannify & Pathways)
+
+This project contains a Web Application that allows UNSW students to plan, optimise and prepare their degree progression by 
 
 ## Getting Started
 
@@ -26,7 +28,7 @@ You will need npm and yarn installed on your machine. Tested on Linux - Ubuntu 1
 
 ## Deployment
 
-### Running the Web App
+### Running the Web App locally
 
 The below will clone the repo, install the dependencies and run both the front end and back end concurrently.
 ```
@@ -43,7 +45,7 @@ yarn dev
 
 You can then visit ```http://localhost:3000/``` for the front end and ```http://localhost:3001/``` for the back end
 
-### Running the client only
+### Running the client locally
 
 ```
 git clone https://github.com/csesoc/degree-planner.git
@@ -54,7 +56,7 @@ yarn start
 
 You can then visit ```http://localhost:3000/``` for the front end
 
-### Running the server only
+### Running the server locally
 
 ```
 git clone https://github.com/csesoc/degree-planner.git
@@ -82,7 +84,8 @@ Please contact the CSESoc Projects Portfolio Director(s) to find out how to cont
 * **Lilian Wang** - *Frontend Developer* - [xLilianW](https://github.com/xLilianW)
 * **Melanie So** - *Fullstack Developer* - [melanieso](https://github.com/melanieso)
 * **Jeremy Lim** - *Fullstack Developer* - [HitoKage13](https://github.com/HitoKage13)
-* **Clarence Feng** - *Backend Developer* - []()
+* **Clarence Feng** - *Backend Developer* - [c-sfeng](https://github.com/c-sfeng)
+* **Bofei Wang** - *Frontend Developer* - [bofeiw](https://github.com/bofeiw)
 
 ## Acknowledgements
 
@@ -101,5 +104,5 @@ Thanks to the following projects for providing inspiration and assistance in cre
 
 ## License
 
-
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
