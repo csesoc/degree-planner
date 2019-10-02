@@ -18,13 +18,20 @@
 
 CSESoc Projects' Degree Planner (Plannify & Pathways)
 
-This project contains a Web Application that allows UNSW students to plan, optimise and prepare their degree progression by 
+This project contains a Web Application that allows UNSW students to plan, optimise and prepare their degree progression. Plannify allows students to
+organise when they complete courses that are requirements for their degree, while Pathways allows students to visually determine the prerequisites and postrequisites
+of a specified course via a generated flow chart.
 
 ## Getting Started
 
 ### Prerequisites
 
-You will need npm and yarn installed on your machine. Tested on Linux - Ubuntu 18.10
+The project has been verified to work on the following dependencies
+
+* npm v5.8.0
+* yarn v1.17.3
+
+This project is designed to be run on a UNIX based machine (Mac or Linux).
 
 ## Deployment
 
