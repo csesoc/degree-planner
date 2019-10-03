@@ -9,7 +9,8 @@ import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles({
   card: {
-    maxWidth: 300
+    maxWidth: 300,
+    margin: "auto"
   },
   name: {
     marginBottom: '12px',
@@ -23,27 +24,47 @@ export default function Course(props) {
 
     const classes = useStyles();
 
-    if (props.data.relations === undefined) {
-      props.data.relations = {};
+    if (props.relations !== undefined) {
+      return(
+        <Card className={classes.card}>
+          <ArcherElement key={props.data.code} id={props.data.code} relations={props.relations}>
+            <CardContent>
+              <Typography variant="h5" component="h2">
+                {props.data.code}
+              </Typography>
+              <Typography className={classes.name} color="textSecondary">
+                {props.data.name}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <a href={props.data.outline} target="_blank" rel='noreferrer noopener'>
+                <Button size="small">Course Outline</Button>
+              </a>
+            </CardActions>
+          </ArcherElement>
+        </Card>
+      );
+    } else {
+      return(
+        <Card className={classes.card}>
+          <ArcherElement key={props.data.code} id={props.data.code}>
+            <CardContent>
+              <Typography variant="h5" component="h2">
+                {props.data.code}
+              </Typography>
+              <Typography className={classes.name} color="textSecondary">
+                {props.data.name}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <a href={props.data.outline} target="_blank" rel='noreferrer noopener'>
+                <Button size="small">Course Outline</Button>
+              </a>
+            </CardActions>
+          </ArcherElement>
+        </Card>
+      );
+
     }
 
-    return(
-      <Card className={classes.card}>
-        <ArcherElement key={props.data.code} id={props.data.code} relations={props.relations}>
-          <CardContent>
-            <Typography variant="h5" component="h2">
-              {props.data.code}
-            </Typography>
-            <Typography className={classes.name} color="textSecondary">
-              {props.data.name}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <a href={props.data.outline} target="_blank">
-              <Button size="small">Course Outline</Button>
-            </a>
-          </CardActions>
-        </ArcherElement>
-      </Card>
-    );
 }

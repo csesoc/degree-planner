@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
-import { ArcherContainer, ArcherElement } from 'react-archer';
+import { ArcherContainer } from 'react-archer';
 import Select from 'react-select';
-import Typography from '@material-ui/core/Typography';
 import NavBar from '../common/NavBar';
 import Footer from '../common/Footer';
 import Course from './Course';
@@ -15,6 +14,12 @@ const useStyles = makeStyles({
     padding: "1%",
   },
   courseCard: {
+  },
+  searchBar: {
+    width: "80%",
+    margin: "auto",
+    paddingTop: "2%"
+    
   }
 });
 
@@ -42,10 +47,11 @@ export default function Pathways() {
 
     useEffect(() => {
       async function fetchData() {
-        const response = await fetch('/api/courses')
+        fetch('/api/courses')
           .then(res => res.json())
           .then(res => {
             setCourses(res);
+            console.log(res.courses.length);
             setCourseOptions(res.courses.map((obj) => {
               return ({
                 "label": obj.code,
@@ -56,12 +62,10 @@ export default function Pathways() {
           .catch((error) => console.log(error.message));
       }
 
-      console.log("yeet");
       if (!Object.keys(courses).length) {
-        console.log("yeetb");
         fetchData();
       } else if (Object.keys(course).length) {
-        const relations = fetch('/api/relations/' + course.code)
+        fetch('/api/relations/' + course.code)
             .then(res => res.json())
             .then(res => {
               Object.values(res.relations).forEach(val => {
@@ -108,7 +112,7 @@ export default function Pathways() {
 
     function courseObjToPostReqArcher(courseObj) {
       return (
-          courseObjToCard(courseObj, [{}])
+          courseObjToCard(courseObj, undefined)
       );
     }
 
@@ -137,8 +141,8 @@ export default function Pathways() {
         <div>
           <NavBar />
           <Select
-            isSearchable={true}
-            isLoading={false}
+            className={classes.searchBar}
+            isSearchable
             options={courseOptions}
             onChange={handleSearchValueChange}
           />
@@ -163,8 +167,8 @@ export default function Pathways() {
         <div>
           <NavBar />
           <Select
-            isSearchable={true}
-            isLoading={false}
+            className={classes.searchBar}
+            isSearchable
             options={courseOptions}
             onChange={handleSearchValueChange}
           />
@@ -177,8 +181,9 @@ export default function Pathways() {
         <div>
           <NavBar />
           <Select
-            isSearchable={true}
-            isLoading={true}
+            className={classes.searchBar}
+            isSearchable
+            isLoading
             options={courseOptions}
             onChange={handleSearchValueChange}
           />
