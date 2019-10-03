@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
     form: {
-
+        padding: '0 5%',
     }
 });
 
@@ -50,7 +50,7 @@ export default function DegreeInputForm() {
         }
         setMinor(value);
     };
-    
+
     const degreeList = {
       "Bachelor of Engineering (Honours)": 3707,
       "Bachelor of Arts": 3409
@@ -73,8 +73,8 @@ export default function DegreeInputForm() {
             <form className={classes.form} autoComplete="off">
               <Grid container spacing={3}>
                 <Grid item xs={12}>
-                  <FormControl className="degree_selector_formcontrol">
-                    <InputLabel htmlFor="degree">Degree</InputLabel>
+                  <FormControl fullWidth className="degree_selector_formcontrol">
+                    <InputLabel  htmlFor="degree">Degree</InputLabel>
                     <Select
                       native
                       value={degree}
@@ -90,7 +90,7 @@ export default function DegreeInputForm() {
                   </FormControl>
                 </Grid>
                 <Grid item xs={12}>
-                  <FormControl className="major_selector_formcontrol">
+                  <FormControl fullWidth className="major_selector_formcontrol">
                     <InputLabel htmlFor="major">Major</InputLabel>
                     <Select
                       native
@@ -107,7 +107,7 @@ export default function DegreeInputForm() {
                   </FormControl>
                 </Grid>
                 <Grid item xs={12}>
-                  <FormControl className="minor_selector_formcontrol">
+                  <FormControl fullWidth className="minor_selector_formcontrol">
                     <InputLabel htmlFor="minor">Minor</InputLabel>
                     <Select
                       native
