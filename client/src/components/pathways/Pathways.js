@@ -91,31 +91,24 @@ export default function Pathways() {
       }
     }, [course, setCourse, courses, setArcherRenderComplete]);
 
-    function courseObjToCard(courseObj) {
-      return (<Course className={classes.courseCard} key={courseObj.code} data={courseObj} />);
+    function courseObjToCard(courseObj, relations) {
+      return (<Course className={classes.courseCard} key={courseObj.code} data={courseObj} relations={relations}/>);
     };
 
     function courseObjToPrereqArcher(courseObj) {
-      return (
-        <ArcherElement 
-          key={courseObj.code} 
-          id={courseObj.code} 
-          relations={[{
+      const relations=[{
               targetId: course.code,
               targetAnchor: 'left',
               sourceAnchor: 'right'
-          }]}
-        >
-          {courseObjToCard(courseObj)}
-        </ArcherElement>
+          }]
+      return (
+          courseObjToCard(courseObj, relations)
       );
     };
 
     function courseObjToPostReqArcher(courseObj) {
       return (
-        <ArcherElement key={courseObj.code} id={courseObj.code}>
-          {courseObjToCard(courseObj)}
-        </ArcherElement>
+          courseObjToCard(courseObj, [{}])
       );
     }
 
@@ -128,9 +121,7 @@ export default function Pathways() {
         });
       });
       return (
-        <ArcherElement id={course.code} relations={postReqRelations}>
-          {courseObjToCard(course)}
-        </ArcherElement>
+          courseObjToCard(course, postReqRelations)
       );
     }
     
@@ -164,7 +155,6 @@ export default function Pathways() {
               </Grid>
             </Grid>
           </ArcherContainer>
-          <Footer />
         </div>
       );
     } else if (Object.keys(courses).length){
