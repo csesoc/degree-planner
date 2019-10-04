@@ -24,13 +24,9 @@ const useStyles = makeStyles({
 });
 
 // TODO 
-//   Load search options async? 
-//   Search should perhaps just send requests for current text to Backend and return possible options
-//   Make this more efficient, it is very slow! (by probably moving things out of useEffect)
-//   Fix CSS on Course Cards so arrows touch properly
-//   Fix CSS so search bar isnt touching top
-//   Add onClick to cards so can rerender with selected card as the subject
+//   Optimise search bar
 //   Find a way to somehow represent exclusions? (maybe add to middle column with same arrows??)
+//   Bind footer to bottom of page properly
 export default function Pathways() {
 
     const classes = useStyles();
@@ -51,7 +47,6 @@ export default function Pathways() {
           .then(res => res.json())
           .then(res => {
             setCourses(res);
-            console.log(res.courses.length);
             setCourseOptions(res.courses.map((obj) => {
               return ({
                 "label": obj.code,
@@ -96,7 +91,15 @@ export default function Pathways() {
     }, [course, setCourse, courses, setArcherRenderComplete]);
 
     function courseObjToCard(courseObj, relations) {
-      return (<Course className={classes.courseCard} key={courseObj.code} data={courseObj} relations={relations}/>);
+      return (
+          <Course 
+            className={classes.courseCard} 
+            key={courseObj.code} 
+            data={courseObj} 
+            relations={relations} 
+            onClick={handleSearchValueChange}
+          />
+      );
     };
 
     function courseObjToPrereqArcher(courseObj) {
@@ -128,12 +131,14 @@ export default function Pathways() {
           courseObjToCard(course, postReqRelations)
       );
     }
-    
+
     const handleSearchValueChange = value => {
       if (archerRenderComplete) {
         setArcherRenderComplete(false);
       }
       setCourse(value.value);
+      setPrereqs([]);
+      setPostreqs([]); 
     };
 
     if (archerRenderComplete) {
@@ -159,6 +164,7 @@ export default function Pathways() {
               </Grid>
             </Grid>
           </ArcherContainer>
+          <Footer />
         </div>
       );
     } else if (Object.keys(courses).length){

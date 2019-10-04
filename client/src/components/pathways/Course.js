@@ -24,6 +24,10 @@ export default function Course(props) {
 
     const classes = useStyles();
 
+    const handleOnSelect = () => {
+      props.onClick({"value": props.data});
+    };
+
     if (props.relations !== undefined) {
       return(
         <Card className={classes.card}>
@@ -37,9 +41,12 @@ export default function Course(props) {
               </Typography>
             </CardContent>
             <CardActions>
-              <a href={props.data.outline} target="_blank" rel='noreferrer noopener'>
-                <Button size="small">Course Outline</Button>
-              </a>
+              <Button variant="contained" color="primary" size="small" href={props.data.outline} target="_blank">
+                Course Outline
+              </Button>
+              <Button variant="contained" color="primary" size="small" className={classes.button} onClick={handleOnSelect}>
+                Select
+              </Button>
             </CardActions>
           </ArcherElement>
         </Card>
@@ -57,9 +64,12 @@ export default function Course(props) {
               </Typography>
             </CardContent>
             <CardActions>
-              <a href={props.data.outline} target="_blank" rel='noreferrer noopener'>
-                <Button size="small">Course Outline</Button>
-              </a>
+              <Button variant="contained" color="primary" size="small" href={props.data.outline} target="_blank">
+                Course Outline
+              </Button>
+              <Button variant="contained" color="primary" size="small" className={classes.button} onClick={handleOnSelect}>
+                Select
+              </Button>
             </CardActions>
           </ArcherElement>
         </Card>
