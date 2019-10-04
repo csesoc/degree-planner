@@ -24,9 +24,9 @@ const useStyles = makeStyles({
 });
 
 // TODO 
-//   Optimise search bar
+//   Call courses data on app launch and pass through to pathways? Otherwise can still do it here?
+//   Manually implement filter on courses or backend call with search param...
 //   Find a way to somehow represent exclusions? (maybe add to middle column with same arrows??)
-//   Bind footer to bottom of page properly
 export default function Pathways() {
 
     const classes = useStyles();
@@ -42,7 +42,7 @@ export default function Pathways() {
     const [archerRenderComplete, setArcherRenderComplete] = useState(false);
 
     useEffect(() => {
-      async function fetchData() {
+      if (!Object.keys(courses).length) {
         fetch('/api/courses')
           .then(res => res.json())
           .then(res => {
@@ -55,10 +55,6 @@ export default function Pathways() {
             }));
           })
           .catch((error) => console.log(error.message));
-      }
-
-      if (!Object.keys(courses).length) {
-        fetchData();
       } else if (Object.keys(course).length) {
         fetch('/api/relations/' + course.code)
             .then(res => res.json())
@@ -90,7 +86,7 @@ export default function Pathways() {
       }
     }, [course, setCourse, courses, setArcherRenderComplete]);
 
-    function courseObjToCard(courseObj, relations) {
+    const courseObjToCard = (courseObj, relations) => {
       return (
           <Course 
             className={classes.courseCard} 
@@ -102,7 +98,7 @@ export default function Pathways() {
       );
     };
 
-    function courseObjToPrereqArcher(courseObj) {
+    const courseObjToPrereqArcher = (courseObj) => {
       const relations=[{
               targetId: course.code,
               targetAnchor: 'left',
@@ -113,13 +109,13 @@ export default function Pathways() {
       );
     };
 
-    function courseObjToPostReqArcher(courseObj) {
+    const courseObjToPostReqArcher = (courseObj) => {
       return (
           courseObjToCard(courseObj, undefined)
       );
     }
 
-    function courseToSelectedCourseArcher() {
+    const courseToSelectedCourseArcher = () => {
       let postReqRelations = postreqs.map(obj => {
         return ({
           targetId: obj.code,
@@ -167,29 +163,14 @@ export default function Pathways() {
           <Footer />
         </div>
       );
-    } else if (Object.keys(courses).length){
-      // Search results loaded but user has not chosen a course, cannot render archer stuff until then so just show search bar?
-      return (
-        <div>
-          <NavBar />
-          <Select
-            className={classes.searchBar}
-            isSearchable
-            options={courseOptions}
-            onChange={handleSearchValueChange}
-          />
-          <Footer />
-        </div>
-      );
     } else {
-      // Search options ahvent loaded, should put a spinner here probably
       return (
         <div>
           <NavBar />
           <Select
             className={classes.searchBar}
             isSearchable
-            isLoading
+            isLoading={!Object.keys(courses).length}
             options={courseOptions}
             onChange={handleSearchValueChange}
           />
