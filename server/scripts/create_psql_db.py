@@ -10,14 +10,14 @@ load_dotenv(dotenv_path=env_path)
 
 # Database Configuration
 DEGREE_PLANNER_DATABASE_NAME = "degree_planner"
-PGPORT = os.getenv('PGPORT')
+PGPORT = int(os.getenv('PGPORT'))
 PGHOST = os.getenv('PGHOST')
 PGUSER = os.getenv('PGUSER')
 PGPASSWORD = os.getenv('PGPASSWORD')
 
 # SENG Sample Data
 faculty = "Faculty of Engineering"
-school = "School of Computer Science and Engineering"
+#school = "School of Computer Science and Engineering"
 program = "Bachelor of Engineering (Honours)"
 major = "Software Engineering"
 courses = [
@@ -44,9 +44,8 @@ cur.close()
 # Create tables
 conn = pg8000.connect(database=DEGREE_PLANNER_DATABASE_NAME, port=PGPORT, host=PGHOST, user=PGUSER, password=PGPASSWORD)
 cur = conn.cursor()
-cur.execute("CREATE TABLE IF NOT EXISTS faculties (name text primary key, schools text)")
-cur.execute("CREATE TABLE IF NOT EXISTS schools (name text primary key, programs text)")
-cur.execute("CREATE TABLE IF NOT EXISTS programs (programid integer primary key, name text, major text, minor text)")
+cur.execute("CREATE TABLE IF NOT EXISTS faculties (name text primary key, programs text)")
+cur.execute("CREATE TABLE IF NOT EXISTS programs (programid integer primary key, name text, link text, majors text, minors text)")
 cur.execute("CREATE TABLE IF NOT EXISTS majors (majorid text primary key, name text, courses text)")
 cur.execute("CREATE TABLE IF NOT EXISTS minors (minorid text primary key, name text, courses text)")
 cur.execute("CREATE TABLE IF NOT EXISTS courses (code text, name text, description text, offering text, faculty text, school text, study_level text, gened integer, outline text, uoc integer)")
@@ -55,13 +54,10 @@ conn.commit()
 
 # Insert Dummy Data for Bachelor of Software Engineering
 # Faculty
-query, args = pg8000.core.convert_paramstyle("qmark", "INSERT INTO faculties (name, schools) VALUES (?, ?) ON CONFLICT DO NOTHING")
+query, args = pg8000.core.convert_paramstyle("qmark", "INSERT INTO faculties (name, programs) VALUES (?, ?) ON CONFLICT DO NOTHING")
 cur.execute(query, args((faculty, school)))
-# School
-query, args = pg8000.core.convert_paramstyle("qmark", "INSERT INTO schools (name, programs) VALUES (?, ?) ON CONFLICT DO NOTHING")
-cur.execute(query, args((school, program)))
 # Program
-query, args = pg8000.core.convert_paramstyle("qmark", "INSERT INTO programs (programid, name, major, minor) VALUES (?, ?, ?, ?) ON CONFLICT DO NOTHING")
+query, args = pg8000.core.convert_paramstyle("qmark", "INSERT INTO programs (programid, name, link, major, minor) VALUES (?, ?, ?, ?, ?) ON CONFLICT DO NOTHING")
 cur.execute(query, args((3707, "Bachelor of Engineering (Honours)", "Software Engineering", "")))
 # Major
 query, args = pg8000.core.convert_paramstyle("qmark", "INSERT INTO majors (majorid, name, courses) VALUES (?, ?, ?) ON CONFLICT DO NOTHING")
