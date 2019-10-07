@@ -1,6 +1,6 @@
 {
-  "name": "degree-planner",
-  "version": "0.0.1",
+  "name": "plannify",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "client": "cd client && yarn start",

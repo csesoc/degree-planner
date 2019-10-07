@@ -1,6 +1,6 @@
 {
-  "name": "degree-planner-client",
-  "version": "0.0.1",
+  "name": "plannify-client",
+  "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:3001",
   "dependencies": {
@@ -9,9 +9,11 @@
     "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
+    "react-archer": "^1.1.2",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
+    "react-select": "^3.0.5",
     "styled-components": "^4.3.2"
   },
   "scripts": {
