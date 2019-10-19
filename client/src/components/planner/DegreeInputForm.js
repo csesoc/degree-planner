@@ -4,51 +4,38 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
+import MenuItem from '@material-ui/core/MenuItem';
+import Input from '@material-ui/core/Input';
+import Checkbox from '@material-ui/core/Checkbox';
+import ListItemText from '@material-ui/core/ListItemText';
+
 
 const useStyles = makeStyles({
     form: {
+        width: '300px',
         padding: '0 5%',
+        marginTop: "1em"
     }
 });
 
 export default function DegreeInputForm() {
 
     const classes = useStyles();
-    const [degree, setDegree] = React.useState([]);
+    const [degrees, setDegrees] = React.useState([]);
     const [major, setMajor] = React.useState([]);
     const [minor, setMinor] = React.useState([]);
 
-    function handleDegreeChange(event) {
-        const { options } = event.target;
-        const value = [];
-        for (let i = 0, l = options.length; i < l; i += 1) {
-          if (options[i].selected) {
-            value.push(options[i].value);
-          }
-        }
-        setDegree(value);
+
+    const handleDegreeChange = event => {
+      setDegrees(event.target.value);
     };
 
     function handleMajorChange(event) {
-        const { options } = event.target;
-        const value = [];
-        for (let i = 0, l = options.length; i < l; i += 1) {
-          if (options[i].selected) {
-            value.push(options[i].value);
-          }
-        }
-        setMajor(value);
+      setMajor(event.target.value);
     };
 
     function handleMinorChange(event) {
-        const { options } = event.target;
-        const value = [];
-        for (let i = 0, l = options.length; i < l; i += 1) {
-          if (options[i].selected) {
-            value.push(options[i].value);
-          }
-        }
-        setMinor(value);
+      setMinor(event.target.value);
     };
 
     const degreeList = {
@@ -65,9 +52,13 @@ export default function DegreeInputForm() {
           "Asian Studies": 3409,
           "Film Studies": 3409
         }
-        let degreeListOptions = Object.entries(degreeList).map(([degree, degree_code]) => <option key={degree_code} value={degree_code}>{degree}</option>);
-        let majorListOptions = Object.entries(majorList).map(([degree, degree_code]) => <option key={degree_code} value={degree_code}>{degree}</option>);
-        let minorListOptions = Object.entries(minorList).map(([degree, degree_code]) => <option key={degree_code} value={degree_code}>{degree}</option>);
+        let degreeListOptions = Object.entries(degreeList).map(([degree, degree_code]) => 
+          <MenuItem key={degree_code} value={degree}>
+            <Checkbox checked={degrees.includes(degree)} />
+            <ListItemText primary={degree} />
+          </MenuItem>);
+        let majorListOptions = Object.entries(majorList).map(([degree, degree_code]) => <MenuItem key={degree_code} value={degree_code}>{degree}</MenuItem>);
+        let minorListOptions = Object.entries(minorList).map(([degree, degree_code]) => <MenuItem key={degree_code} value={degree_code}>{degree}</MenuItem>);
 
         return (
             <form className={classes.form} autoComplete="off">
@@ -76,16 +67,17 @@ export default function DegreeInputForm() {
                   <FormControl fullWidth className="degree_selector_formcontrol">
                     <InputLabel  htmlFor="degree">Degree</InputLabel>
                     <Select
-                      native
-                      value={degree}
+                      multiple
+                      value={degrees}
                       onChange={handleDegreeChange}
+                      input={<Input id="select-multiple" />}
+                      renderValue={selected => selected.join(', ')}
                       inputProps={{
                         name: 'Degree',
                         id: 'degree',
                       }}
                     >
-                      <option value="" />
-                      {degreeListOptions}
+                    {degreeListOptions}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -93,7 +85,6 @@ export default function DegreeInputForm() {
                   <FormControl fullWidth className="major_selector_formcontrol">
                     <InputLabel htmlFor="major">Major</InputLabel>
                     <Select
-                      native
                       value={major}
                       onChange={handleMajorChange}
                       inputProps={{
@@ -110,7 +101,6 @@ export default function DegreeInputForm() {
                   <FormControl fullWidth className="minor_selector_formcontrol">
                     <InputLabel htmlFor="minor">Minor</InputLabel>
                     <Select
-                      native
                       value={minor}
                       onChange={handleMinorChange}
                       inputProps={{
