@@ -26,7 +26,7 @@ of a specified course via a generated flow chart.
 
 ### Prerequisites
 
-The project has been verified to work on the following dependencies
+The project has been verified to work on the following dependencies but will most likely work on other versions of the below dependencies
 
 * npm v5.8.0
 * yarn v1.17.3
@@ -42,12 +42,7 @@ The below will clone the repo, install the dependencies and run both the front e
 git clone https://github.com/csesoc/degree-planner.git
 cd degree-planner
 yarn install
-cd client
-yarn install
-cd ../server
-yarn install
-cd ..
-yarn dev
+yarn start
 ```
 
 You can then visit ```http://localhost:3000/``` for the front end and ```http://localhost:3001/``` for the back end
