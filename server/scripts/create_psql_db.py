@@ -33,7 +33,7 @@ courses = [
 ]
 
 # Create Database
-conn = pg8000.connect(port=PGPORT, host=PGHOST, user=PGUSER, password=PGPASSWORD)
+conn = pg8000.connect(port=int(PGPORT), host=PGHOST, user=PGUSER, password=PGPASSWORD)
 cur = conn.cursor()
 conn.autocommit = True
 cur.execute("DROP DATABASE IF EXISTS " + DEGREE_PLANNER_DATABASE_NAME);
@@ -42,7 +42,7 @@ conn.autocommit = False
 cur.close()
 
 # Create tables
-conn = pg8000.connect(database=DEGREE_PLANNER_DATABASE_NAME, port=PGPORT, host=PGHOST, user=PGUSER, password=PGPASSWORD)
+conn = pg8000.connect(database=DEGREE_PLANNER_DATABASE_NAME, port=int(PGPORT), host=PGHOST, user=PGUSER, password=PGPASSWORD)
 cur = conn.cursor()
 cur.execute("CREATE TABLE IF NOT EXISTS faculties (name text primary key, schools text)")
 cur.execute("CREATE TABLE IF NOT EXISTS schools (name text primary key, programs text)")
