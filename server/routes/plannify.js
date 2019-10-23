@@ -2,7 +2,7 @@ var express = require('express');
 var db = require('../database/db');
 var router = express.Router();
 
-router.get('/course/:CODE([A-S]{4}[0-9]{4})', (req, res) => {
+router.get('/course/:CODE([A-Z]{4}[0-9]{4})', (req, res) => {
     db.query("SELECT * FROM course WHERE code LIKE $1",[req.params.CODE], (err, queryRes) => {
         if (err) {
             throw err;
