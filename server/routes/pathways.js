@@ -60,7 +60,7 @@ router.get('/courses', (req, res) => {
  *   ]
  * }
  */
-router.get('/relations/:code([A-S]{4}[0-9]{4})', (req, res) => {
+router.get('/relations/:code([A-Z]{4}[0-9]{4})', (req, res) => {
   console.log("relations api call");
   db.query("SELECT DISTINCT * FROM pathways_relationships WHERE source LIKE $1 OR destination LIKE $1", [req.params.code], (err, queryRes) => {
       if (err) {
