@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
         // this is the real footer
         backgroundColor: '#3F51BA',
         color: COLORS.WHITE,
-        padding: '1em',
+        padding: '1em 0',
         overflow: 'hidden',
         width: '100%',
         bottom: 0,
@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
         // this occupies place after all contents so that real
         // footer does not hide any contents
         visibility: 'hidden',
-        padding: '1em',
+        padding: '1em 0',
         width: '100%',
         position: 'absolute'
     },
@@ -118,6 +118,6 @@ const Footer = () => {
             </div>
         </>
     );
-}
+};
 
 export default Footer;
