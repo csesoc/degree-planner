@@ -14,9 +14,6 @@ export default function DegreePlanner() {
     const classes = useStyles();
 
     const [course, setCourse] = useState({});
-    const [prereqs, setPrereqs] = useState([]);
-    const [postreqs, setPostreqs] = useState([]);
-
     const [courses, setCourses] = useState([]);
     const [courseOptions, setCourseOptions] = useState([]);
 
@@ -46,8 +43,6 @@ export default function DegreePlanner() {
 
     const handleSearchValueChange = value => {
         setCourse(value.value);
-        setPrereqs([]);
-        setPostreqs([]);
     };
 
     return (
