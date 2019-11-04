@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Select from "react-select";
 import {makeStyles} from "@material-ui/core";
+import StagingArea from "./StagingArea";
 
 const useStyles = makeStyles({
     searchBar: {
@@ -48,6 +49,7 @@ export default function DegreePlanner() {
     return (
         <div>
             <h1>Degree Planner</h1>
+            <StagingArea/>
             <Select
                 className={classes.searchBar}
                 isSearchable
