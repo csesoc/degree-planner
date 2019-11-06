@@ -1,38 +1,28 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {makeStyles} from "@material-ui/core";
 import CourseCard from "./CourseCard";
 
 const useStyles = makeStyles({
-    searchBar: {
-        width: "100%",
-        margin: "auto",
-        paddingTop: "2%"
+    stagingArea: {
+        margin: "1em 0",
     }
 });
 
-export default function StagingArea() {
+export default function StagingArea(props) {
     const classes = useStyles();
 
-    const [course, setCourse] = useState({});
-
-    useEffect(() => {
-
-    }, [course, setCourse]);
-
     return (
-        <div>
-            <CourseCard
-                courseName={"Test"}
-                courseCode={"123"}
-            />
-            <CourseCard
-                courseName={"Test"}
-                courseCode={"123"}
-            />
-            <CourseCard
-                courseName={"Test"}
-                courseCode={"123"}
-            />
+        <div className={classes.stagingArea}>
+            {props.courses.map((course, index) => {
+                return (
+                    <CourseCard
+                        key={index}
+                        courseName={course.value.name}
+                        courseCode={course.value.code}
+                        onRemove={() => props.onRemoveCourse(course)}
+                    />
+                );
+            })}
         </div>
     );
 }
