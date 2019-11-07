@@ -39,7 +39,7 @@ export default function DegreeInputForm() {
 
     function handleDeleteDegree(value) {
       let updated = degrees.filter((curr, index, arr) => {
-        return (curr != value)
+        return (curr !== value)
       })
       
       setDegrees(updated);
@@ -51,7 +51,7 @@ export default function DegreeInputForm() {
 
     function handleDeleteMajor(value) {
       let updated = majors.filter((curr, index, arr) => {
-        return (curr != value)
+        return (curr !== value)
       })
       
       setMajors(updated);
@@ -63,7 +63,7 @@ export default function DegreeInputForm() {
 
     function handleDeleteMinor(value) {
       let updated = minors.filter((curr, index, arr) => {
-        return (curr != value)
+        return (curr !== value)
       })
       
       setMinors(updated);
