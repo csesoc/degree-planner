@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Select from "react-select";
 import {makeStyles} from "@material-ui/core";
+import StagingArea from "./StagingArea";
 
 const useStyles = makeStyles({
     searchBar: {
@@ -13,9 +14,9 @@ const useStyles = makeStyles({
 export default function DegreePlanner() {
     const classes = useStyles();
 
-    const [course, setCourse] = useState({});
     const [courses, setCourses] = useState([]);
     const [courseOptions, setCourseOptions] = useState([]);
+    const [courseStaging, setCourseStaging] = useState([]);
 
     useEffect(() => {
         if (!Object.keys(courses).length) {
@@ -31,22 +32,24 @@ export default function DegreePlanner() {
                     }));
                 })
                 .catch((error) => console.log(error.message));
-        } else if (Object.keys(course).length) {
-            fetch('/api/relations/' + course.code)
-                .then(res => res.json())
-                .then(res => {
-                    // course info retrieved successfully here
-                    console.log(res)
-                })
         }
-    }, [course, setCourse, courses]);
+    });
 
     const handleSearchValueChange = value => {
-        setCourse(value.value);
+        // add course (code + name) to staging area
+        setCourseStaging([...courseStaging, value]);
     };
 
+    function handleRemoveCourseStaging(course) {
+        // remove a particular course from staging list
+        const courseStagingRemoved = [...courseStaging].filter(function (el) {
+            return el !== course;
+        });
+        setCourseStaging(courseStagingRemoved);
+    }
+
     return (
-        <div>
+        <>
             <h1>Degree Planner</h1>
             <Select
                 className={classes.searchBar}
@@ -55,6 +58,10 @@ export default function DegreePlanner() {
                 options={courseOptions}
                 onChange={handleSearchValueChange}
             />
-        </div>
+            <StagingArea
+                courses={courseStaging}
+                onRemoveCourse={handleRemoveCourseStaging}
+            />
+        </>
     );
 }

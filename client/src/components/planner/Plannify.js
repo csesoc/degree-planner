@@ -19,6 +19,9 @@ const useStyles = makeStyles({
     },
     stepperButton: {
         margin: '5px'
+    },
+    plannerWrapper: {
+        width: "80%"
     }
 });
 
@@ -65,7 +68,7 @@ export default function Plannify() {
           <NavBar />
           <div className={classes.plannify}>
             <Grid container spacing={1} alignItems="center" justify="center" direction="column">
-              <Grid item xs={12}>
+              <Grid container alignItems="center" justify="center" direction="column" className={classes.plannerWrapper}>
                 {getStepContent(activeStep)}
               </Grid>
               <Grid item xs={12}> 
