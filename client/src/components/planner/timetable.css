@@ -1,0 +1,29 @@
+.sc-VigVT {
+    /*  timetable wrapper  */
+    width: 100%;
+}
+
+.sc-VigVT,
+.sc-VigVT * {
+    box-sizing: border-box !important;
+}
+
+.sc-jTzLTM {
+    /*  timetable  */
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-gap: 10px;
+    padding: 10px;
+}
+
+.sc-htpNat:first-child {
+    /*  staging area  */
+    grid-column: 1/4;
+
+}
+
+.sc-htpNat {
+    /*  card inside timetable  */
+    margin: 0;
+}

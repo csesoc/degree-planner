@@ -1,15 +1,81 @@
 import React, {useEffect, useState} from 'react';
 import Select from "react-select";
+import Board from '@lourenci/react-kanban'
 import {makeStyles} from "@material-ui/core";
 import StagingArea from "./StagingArea";
+import './timetable.css';
 
 const useStyles = makeStyles({
     searchBar: {
-        width: "80%",
+        width: "95%",
         margin: "auto",
         paddingTop: "2%"
+    },
+    timetable: {
+        width: "100%"
     }
 });
+
+const board = {
+    lanes: [
+        {
+            id: 0,
+            title: 'Staging Area',
+            cards: [
+                {
+                    id: 9,
+                    title: 'Computer System',
+                    description: 'COMP3123'
+                },
+            ]
+        },
+        {
+            id: 1,
+            title: 'T1',
+            cards: [
+                {
+                    id: 4,
+                    title: 'Computer System',
+                    description: 'COMP3123'
+                },
+            ]
+        },
+        {
+            id: 2,
+            title: 'T2',
+            cards: [
+                {
+                    id: 5,
+                    title: 'Computer System',
+                    description: 'COMP3123'
+                },
+            ]
+        },
+        {
+            id: 3,
+            title: 'T3',
+            cards: [
+                {
+                    id: 6,
+                    title: 'Computer System',
+                    description: 'COMP3123'
+                },
+            ]
+        },
+        {
+            id: 7,
+            title: 'T3',
+            cards: [
+                {
+                    id: 8,
+                    title: 'Computer System',
+                    description: 'COMP3123'
+                },
+            ]
+        },
+    ]
+}
+
 
 export default function DegreePlanner() {
     const classes = useStyles();
@@ -62,6 +128,15 @@ export default function DegreePlanner() {
                 courses={courseStaging}
                 onRemoveCourse={handleRemoveCourseStaging}
             />
+            <Board
+                className={classes.timetable}
+                disableLaneDrag
+                allowAddLane
+                allowRemoveCard
+                onLaneRemove={console.log}
+                onCardRemove={console.log}
+                onLaneRename={console.log}
+            >{board}</Board>
         </>
     );
 }
