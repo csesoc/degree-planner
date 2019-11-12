@@ -1,3 +1,15 @@
+/*
+ This file styles the timetable of plannify
+
+ I know it is a bit weird to write a separate style sheet to do styling and this may break the
+ principles of effective ways to write React codes.
+
+ But the awesome library I am using, increment-generator does not provide a way to add
+ custom css. This is a workaround to add css at the moment
+
+ The class names below look a bit random, but it works. These names are got from code inspection
+*/
+
 .sc-VigVT {
     /*  timetable wrapper  */
     width: 100%;
@@ -20,10 +32,39 @@
 .sc-htpNat:first-child {
     /*  staging area  */
     grid-column: 1/4;
-
+    /*grid-row: 1/4;*/
+    /*width: 100%;*/
 }
 
 .sc-htpNat {
-    /*  card inside timetable  */
+    /* lane inside wrapper */
     margin: 0;
 }
+
+.sc-bxivhb {
+    /*  card wrapper inside timetable  */
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    width: auto;
+    justify-items: center;
+}
+
+.sc-bxivhb > * {
+    /*  card inside card wrapper  */
+}
+
+.sc-gzVnrw > span {
+    /* lane header - default */
+    margin: auto;
+}
+
+#laneTitle {
+    /* lane header - customised */
+    margin: 0 auto 1em auto;
+    width: fit-content;
+    font-weight: bold;
+    font-size: 1.2em;
+    text-transform: uppercase;
+}
+
