@@ -21,7 +21,7 @@ const useStyles = makeStyles({
         margin: '5px'
     },
     plannerWrapper: {
-        width: "80%"
+        width: "100%"
     }
 });
 
