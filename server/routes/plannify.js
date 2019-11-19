@@ -99,25 +99,27 @@ router.post('/courses', (req, res) => {
     let courses = [];
     let courseData = [];
 
-    db.query("SELECT courses FROM majors WHERE lower(name) LIKE $1", [searchConversion(majorName)], (err, queryRes) => {
-        if (err) {
-            throw err;
-            res.end();
-        } else if (queryRes.rows.length == 0) {
-            console.log("query for major courses does not exist");
-        } else {
-            for (let i = 0; i < queryRes.rows.length; i++) {
-                let coursesTemp = queryRes.rows[i]["courses"].split(/[,|\s]+/);
-                for (let j = 0; j < coursesTemp.length; j++) {
-                    if (courses.indexOf(coursesTemp[j]) == -1) {
-                        courses.push(coursesTemp[j]);
-                    } else {
-                        continue;
+    if (majorName.length) {
+        db.query("SELECT courses FROM majors WHERE lower(name) LIKE $1", [searchConversion(majorName)], (err, queryRes) => {
+            if (err) {
+                throw err;
+                res.end();
+            } else if (queryRes.rows.length == 0) {
+                console.log("query for major courses does not exist");
+            } else {
+                for (let i = 0; i < queryRes.rows.length; i++) {
+                    let coursesTemp = queryRes.rows[i]["courses"].split(/[,|\s]+/);
+                    for (let j = 0; j < coursesTemp.length; j++) {
+                        if (courses.indexOf(coursesTemp[j]) == -1) {
+                            courses.push(coursesTemp[j]);
+                        } else {
+                            continue;
+                        }
                     }
                 }
             }
-        }
-    });
+        });
+    }
 
     if (minorName.length) {
         db.query("SELECT courses FROM minors WHERE lower(name) LIKE $1", [searchConversion(minorName)], (err, queryRes) => {
