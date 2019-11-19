@@ -6,13 +6,8 @@ app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-<<<<<<< HEAD
-router.get('/course/:code([A-S]{4}[0-9]{4})', (req, res) => {
-    db.query("SELECT * FROM courses WHERE code LIKE $1",[req.params.code], (err, queryRes) => {
-=======
 router.get('/course/:CODE([A-Z]{4}[0-9]{4})', (req, res) => {
     db.query("SELECT * FROM course WHERE code LIKE $1",[req.params.CODE], (err, queryRes) => {
->>>>>>> origin/master
         if (err) {
             throw err;
             res.end();
