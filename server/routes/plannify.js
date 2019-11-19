@@ -151,7 +151,7 @@ router.post('/courses', (req, res) => {
                     throw err;
                     res.end();
                 } else if (queryRes.rows.length == 0) {
-                    courseData.push(courses[i]);
+                    courseData.push({"code": courses[i]});
                 } else {
                     courseData.push(queryRes.rows[0]);
                 }
