@@ -6,13 +6,28 @@ app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Converts a string into a string that allows for a more forgiving SQL search
+function searchConversion(searchTerm) {
+    return "%" + searchTerm + "%"
+}
+
+/* 
+ *  Gets a course based on a query
+ * 
+ *  Example return:
+ *  {
+ *    "code": "COMP1511",
+ *    ...
+ *  }
+ */
+
 router.get('/course/:CODE([A-Z]{4}[0-9]{4})', (req, res) => {
     db.query("SELECT * FROM courses WHERE code LIKE $1",[req.params.CODE], (err, queryRes) => {
         if (err) {
             throw err;
             res.end();
         } else if (queryRes.rows.length == 0) {
-            console.log("query for ${req.params.code} does not exist");
+            console.log("query for ${req.params.CODE} does not exist");
             res.send({});
         } else {
             res.send(queryRes.rows[0]);
@@ -75,14 +90,15 @@ router.get('/degrees', (req, res) => {
  *      ]
  *  }
 */
+
 router.post('/courses', (req, res) => {
-    console.log(req.body);
     console.log("Courses api call");
     let majorName = req.body["majorName"].toLowerCase();
     let minorName = req.body["minorName"].toLowerCase();
     
     let courses = [];
     let courseData = [];
+
     db.query("SELECT courses FROM majors WHERE lower(name) LIKE $1", [searchConversion(majorName)], (err, queryRes) => {
         if (err) {
             throw err;
@@ -94,40 +110,39 @@ router.post('/courses', (req, res) => {
                 let coursesTemp = queryRes.rows[i]["courses"].split(/[,|\s]+/);
                 for (let j = 0; j < coursesTemp.length; j++) {
                     if (courses.indexOf(coursesTemp[j]) == -1) {
-                        courses.push(coursesTemp[j])
+                        courses.push(coursesTemp[j]);
                     } else {
-                        continue
+                        continue;
                     }
                 }
             }
         }
     });
 
-    db.query("SELECT courses FROM minors WHERE lower(name) LIKE $1", [searchConversion(minorName)], (err, queryRes) => {
-        if (err) {
-            throw err;
-            res.end();
-        } else if (queryRes.rows.length == 0) {
-            console.log("query for minor courses does not exist");
-        } else {
-            for (let i = 0; i < queryRes.rows.length; i++) {
-                let coursesTemp = queryRes.rows[i]["courses"].split(/[,|\s]+/);
-                for (let j = 0; j < coursesTemp.length; j++) {
-                    if (courses.indexOf(coursesTemp[j]) == -1) {
-                        courses.push(coursesTemp[j])
-                    } else {
-                        continue
+    if (minorName.length) {
+        db.query("SELECT courses FROM minors WHERE lower(name) LIKE $1", [searchConversion(minorName)], (err, queryRes) => {
+            if (err) {
+                throw err;
+                res.end();
+            } else if (queryRes.rows.length == 0) {
+                console.log("query for minor courses does not exist");
+            } else {
+                for (let i = 0; i < queryRes.rows.length; i++) {
+                    let coursesTemp = queryRes.rows[i]["courses"].split(/[,|\s]+/);
+                    for (let j = 0; j < coursesTemp.length; j++) {
+                        if (courses.indexOf(coursesTemp[j]) == -1) {
+                            courses.push(coursesTemp[j]);
+                        } else {
+                            continue;
+                        }
                     }
                 }
             }
-        }
-    });
-    
+        });
+    }
     
     // Returning the output
     setTimeout(function(){
-        console.log(courses.length)
-        console.log(courses)
         for (let i = 0; i < courses.length; i++) {
             db.query("SELECT * FROM pathways_courses WHERE code LIKE $1", [searchConversion(courses[i])], (err, queryRes) => {
                 if (err) {
@@ -140,17 +155,13 @@ router.post('/courses', (req, res) => {
                 }
             });
         }
-    }, 5000)
+    }, 5000);
     
     setTimeout(function(){
         res.json ({
             "courses": courseData   
         });
-    }, 10000)
+    }, 10000);
 });
 
 module.exports = router;
-
-function searchConversion(searchTerm) {
-    return "%" + searchTerm + "%"
-}
