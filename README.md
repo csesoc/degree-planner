@@ -42,12 +42,7 @@ The below will clone the repo, install the dependencies and run both the front e
 git clone https://github.com/csesoc/degree-planner.git
 cd degree-planner
 yarn install
-cd client
-yarn install
-cd ../server
-yarn install
-cd ..
-yarn dev
+yarn start
 ```
 
 You can then visit ```http://localhost:3000/``` for the front end and ```http://localhost:3001/``` for the back end
@@ -93,6 +88,7 @@ Please contact the CSESoc Projects Portfolio Director(s) to find out how to cont
 * **Jeremy Lim** - *Fullstack Developer* - [HitoKage13](https://github.com/HitoKage13)
 * **Clarence Feng** - *Backend Developer* - [c-sfeng](https://github.com/c-sfeng)
 * **Bofei Wang** - *Frontend Developer* - [bofeiw](https://github.com/bofeiw)
+* **Ash Abay** - *Backend Developer* - [AshAbay](https://github.com/AshAbay)
 
 ## Acknowledgements
 
