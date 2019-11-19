@@ -6,13 +6,13 @@ app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-router.get('/course/:CODE([A-S]{4}[0-9]{4})', (req, res) => {
-    db.query("SELECT * FROM course WHERE code LIKE $1",[req.params.CODE], (err, queryRes) => {
+router.get('/course/:code([A-S]{4}[0-9]{4})', (req, res) => {
+    db.query("SELECT * FROM courses WHERE code LIKE $1",[req.params.code], (err, queryRes) => {
         if (err) {
             throw err;
             res.end();
         } else if (queryRes.rows.length == 0) {
-            console.log("query for ${req.params.CODE} does not exist");
+            console.log("query for ${req.params.code} does not exist");
             res.send({});
         } else {
             res.send(queryRes.rows[0]);
@@ -54,7 +54,7 @@ router.get('/degrees', (req, res) => {
             });
         }
     });
-  });  
+});  
 
 /* 
  *  Returns all course objects related to a query
@@ -76,14 +76,15 @@ router.get('/degrees', (req, res) => {
  *  }
 */
 router.post('/courses', (req, res) => {
+    console.log(req.body);
     console.log("Courses api call");
-    let majorName = ((req.body.major) ? req.body.major : "");
-    let minorName = ((req.body.minor) ? req.body.minor : "");
-
+    let majorName = req.params["major"];
+    let minorName = req.body["minor"];
+    /*
     let courses = [];
     let courseData = [];
 
-    db.query("SELECT courses FROM majors WHERE lower(name) LIKE %$1%", majorName.toLowerCase(),  (err, queryRes) => {
+    db.query("SELECT courses FROM majors WHERE lower(name) LIKE $1", [majorName.toLowerCase()], (err, queryRes) => {
         if (err) {
             throw err;
             res.end();
@@ -96,8 +97,8 @@ router.post('/courses', (req, res) => {
             }
         }
     });
-
-    db.query("SELECT courses FROM minors WHERE lower(name) LIKE %$1%", minorName.toLowerCase(),  (err, queryRes) => {
+    
+    db.query("SELECT courses FROM minors WHERE lower(name) LIKE $1", [minorName.toLowerCase()], (err, queryRes) => {
         if (err) {
             throw err;
             res.end();
@@ -114,12 +115,76 @@ router.post('/courses', (req, res) => {
     // Returning the output
 
     for (let i = 0; i < courses.length; i++) {
-        db.query("SELECT * FROM courses WHERE code = $1", course[i],  (err, queryRes) => {
+        db.query("SELECT * FROM courses WHERE code = $1", [courses[i]], (err, queryRes) => {
             if (err) {
                 throw err;
                 res.end();
             } else if (queryRes.rows.length == 0) {
-                courseData.push(course[i]);
+                courseData.push(courses[i]);
+            } else {
+                courseData.push(queryRes.rows);
+            }
+        });
+    }
+    
+    */
+    res.json ({
+        "majorName": majorName,
+        "minorName": minorName
+    });
+});
+
+module.exports = router;
+/*
+router.post('/courses', (req, res) => {
+    console.log(req.body);
+    console.log("Courses api call");
+    let majorName = req.params["major"];
+    let minorName = req.body["minor"];
+
+    console.log(majorName.toLowerCase());
+    console.log(minorName.toLowerCase());
+
+    let courses = [];
+    let courseData = [];
+
+    db.query("SELECT courses FROM majors WHERE lower(name) LIKE $1", [majorName.toLowerCase()], (err, queryRes) => {
+        if (err) {
+            throw err;
+            res.end();
+        } else if (queryRes.rows.length == 0) {
+            console.log("query for courses does not exist");
+            res.send({});
+        } else {
+            for (let i = 0; i < queryRes.rows.length; i++) {
+                courses.push(queryRes.rows[i].split(",").split("|"))
+            }
+        }
+    });
+
+    db.query("SELECT courses FROM minors WHERE lower(name) LIKE $1", [minorName.toLowerCase()], (err, queryRes) => {
+        if (err) {
+            throw err;
+            res.end();
+        } else if (queryRes.rows.length == 0) {
+            console.log("query for courses does not exist");
+            res.send({});
+        } else {
+            for (let i = 0; i < queryRes.rows.length; i++) {
+                courses.push(queryRes.rows[i].split(",").split("|"));
+            }
+        }
+    });
+    
+    // Returning the output
+
+    for (let i = 0; i < courses.length; i++) {
+        db.query("SELECT * FROM courses WHERE code = $1", [courses[i]], (err, queryRes) => {
+            if (err) {
+                throw err;
+                res.end();
+            } else if (queryRes.rows.length == 0) {
+                courseData.push(courses[i]);
             } else {
                 courseData.push(queryRes.rows);
             }
@@ -132,3 +197,4 @@ router.post('/courses', (req, res) => {
 });
 
 module.exports = router;
+*/
