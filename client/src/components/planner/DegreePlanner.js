@@ -83,22 +83,61 @@ export default function DegreePlanner() {
     const [courses, setCourses] = useState([]);
     const [courseOptions, setCourseOptions] = useState([]);
 
+    // useEffect(() => {
+    //     if (!Object.keys(courses).length) {
+    //         fetch('/api/courses')
+    //             .then(res => res.json())
+    //             .then(res => {
+    //                 setCourses(res);
+    //                 console.log(res);
+    //                 setCourseOptions(res.courses.map((obj) => {
+    //                     return ({
+    //                         "label": obj.code,
+    //                         "value": obj,
+    //                     });
+    //                 }));
+    //             })
+    //             .catch((error) => console.log(error.message));
+    //     }
+    // });
+
     useEffect(() => {
         if (!Object.keys(courses).length) {
-            fetch('/api/courses')
-                .then(res => res.json())
-                .then(res => {
-                    setCourses(res);
-                    setCourseOptions(res.courses.map((obj) => {
-                        return ({
-                            "label": obj.code,
-                            "value": obj,
-                        });
-                    }));
-                })
-                .catch((error) => console.log(error.message));
+            setCourses([
+                {
+                    "code": "COMP1917",
+                    "name": "Computing 1A",
+                    "desc": "...",
+                    "prereqs": [],
+                    "coreqs": [],
+                    "exclusions": ["ENGG1811"],
+                    "gened": 1,
+                    "outline": "...",
+                    "uoc": 6
+                },
+                {
+                    "code": "COMP1521",
+                    "name": "Computing 1B",
+                    "desc": "...",
+                    "prereqs": [],
+                    "coreqs": [],
+                    "exclusions": [],
+                    "gened": 1,
+                    "outline": "...",
+                    "uoc": 6
+                }
+            ]);
+            setCourseOptions(courses.map((obj) => {
+                return ({
+                    "label": obj.code,
+                    "value": obj,
+                });
+            }));
+            console.log(courses);
+            console.log(courseOptions);
         }
     });
+    
 
     const handleSearchValueChange = value => {
         // add course (code + name) to staging area
