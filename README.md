@@ -1,3 +1,7 @@
+# 2022 Update 
+
+This project has been archived in favour of [Notangles](https://github.com/csesoc/notangles) and [Circles](https://github.com/csesoc/circles)
+
 # CSESoc Projects - Degree Planner (Plannify & Pathways)
 
 ## Table of contents
